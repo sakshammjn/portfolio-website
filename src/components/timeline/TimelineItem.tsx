@@ -9,6 +9,8 @@ interface TimelineItemProps {
   side?: 'left' | 'right'
   /** When true, content spans a wide centred column instead of alternating. */
   wide?: boolean
+  /** When true, no node is drawn (used by the closing section). */
+  noNode?: boolean
   children: ReactNode
 }
 
@@ -21,6 +23,7 @@ export function TimelineItem({
   label,
   side = 'left',
   wide = false,
+  noNode = false,
   children,
 }: TimelineItemProps) {
   return (
@@ -29,7 +32,7 @@ export function TimelineItem({
       aria-label={label}
       className="relative scroll-mt-28 pb-[var(--spacing-chapter)] pl-16 lg:pl-0"
     >
-      <TimelineNode />
+      {!noNode && <TimelineNode />}
 
       {wide ? (
         <div className="lg:mx-auto lg:max-w-4xl lg:pt-1">{children}</div>

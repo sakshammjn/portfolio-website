@@ -11,7 +11,6 @@ export function Projects() {
         eyebrow="04 — Projects"
         title="Things I've built"
         lede="A few of the projects where ideas turned into working software."
-        align="center"
       />
 
       <div className="grid gap-5 sm:grid-cols-2">

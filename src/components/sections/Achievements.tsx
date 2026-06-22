@@ -10,7 +10,6 @@ export function Achievements() {
       <SectionHeading
         eyebrow="05 — Achievements"
         title="Moments that mattered"
-        align="center"
       />
 
       <div className="grid gap-5 sm:grid-cols-2">

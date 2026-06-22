@@ -4,7 +4,7 @@ import { Reveal } from '@/components/ui/Reveal'
 
 export function Contact() {
   return (
-    <TimelineItem id="contact" label="Contact" wide>
+    <TimelineItem id="contact" label="Contact" wide noNode>
       <div className="text-center">
         <Reveal>
           <p className="eyebrow mb-4">07 — The journey continues</p>
