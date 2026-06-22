@@ -1,0 +1,132 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * Design tokens — Tailwind v4 CSS-first theme.
+ * These generate utilities automatically:
+ *   --color-accent  -> text-accent / bg-accent / border-accent ...
+ *   --font-display  -> font-display
+ * ------------------------------------------------------------------ */
+@theme {
+  /* Surfaces */
+  --color-ink: #0a0a0b;
+  --color-ink-2: #101013;
+  --color-surface: #16161b;
+
+  /* Text */
+  --color-fg: #ededf0;
+  --color-fg-muted: #9a9aa3;
+  --color-fg-faint: #6b6b73;
+
+  /* Lines / borders */
+  --color-line: #ffffff14;
+
+  /* Single restrained accent — warm ember */
+  --color-accent: #ff6a3d;
+  --color-accent-soft: #ffa875;
+
+  /* Typography */
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Layout rhythm */
+  --spacing-chapter: 11rem;
+}
+
+/* ------------------------------------------------------------------ *
+ * Base layer
+ * ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    /* Subtle, non-flashy ambient glow anchored top-center */
+    background-image: radial-gradient(
+      60rem 40rem at 50% -10%,
+      #ff6a3d0f,
+      transparent 70%
+    );
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  /* Visible, on-brand focus ring for keyboard users */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Custom scrollbar (WebKit) */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a2a30;
+    border-radius: 999px;
+    border: 2px solid var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a3a42;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Reusable component classes
+ * ------------------------------------------------------------------ */
+@layer components {
+  .glass {
+    background: linear-gradient(
+      180deg,
+      #ffffff0a,
+      #ffffff05
+    );
+    border: 1px solid var(--color-line);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-fg-faint);
+  }
+
+  /* Thin animated underline used on inline links */
+  .link-underline {
+    background-image: linear-gradient(var(--color-accent), var(--color-accent));
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.3s ease;
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+}
