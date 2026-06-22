@@ -16,6 +16,10 @@ node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
+
+# Local agent / editor tooling
+.claude
 
 # Editor / OS
 .vscode/*
