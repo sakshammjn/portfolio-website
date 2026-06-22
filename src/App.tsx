@@ -1,5 +1,6 @@
 import { Brand } from '@/components/layout/Brand'
 import { Footer } from '@/components/layout/Footer'
+import { ClickSpark } from '@/components/effects/ClickSpark'
 import { ScrollProgress } from '@/components/timeline/ScrollProgress'
 import { ChapterNav } from '@/components/timeline/ChapterNav'
 import { Timeline } from '@/components/timeline/Timeline'
@@ -23,6 +24,7 @@ export default function App() {
         Skip to content
       </a>
 
+      <ClickSpark />
       <ScrollProgress />
       <Brand />
       <ChapterNav />
