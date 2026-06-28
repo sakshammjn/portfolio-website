@@ -1,16 +1,14 @@
 import { Brand } from '@/components/layout/Brand'
 import { Footer } from '@/components/layout/Footer'
 import { ClickSpark } from '@/components/effects/ClickSpark'
-import { ScrollProgress } from '@/components/timeline/ScrollProgress'
-import { ChapterNav } from '@/components/timeline/ChapterNav'
-import { Timeline } from '@/components/timeline/Timeline'
+import { TabTease } from '@/components/effects/TabTease'
+import { LoadingSplash } from '@/components/effects/LoadingSplash'
 import { Hero } from '@/components/sections/Hero'
 import { Education } from '@/components/sections/Education'
 import { Global } from '@/components/sections/Global'
 import { Experience } from '@/components/sections/Experience'
 import { Projects } from '@/components/sections/Projects'
 import { Achievements } from '@/components/sections/Achievements'
-import { Beyond } from '@/components/sections/Beyond'
 import { Contact } from '@/components/sections/Contact'
 
 export default function App() {
@@ -24,24 +22,21 @@ export default function App() {
         Skip to content
       </a>
 
+      <LoadingSplash />
       <ClickSpark />
-      <ScrollProgress />
+      <TabTease />
       <Brand />
-      <ChapterNav />
 
       <main>
         <Hero />
 
-        {/* The journey — every chapter hangs off this single spine */}
-        <Timeline>
-          <Education />
-          <Global />
-          <Experience />
-          <Projects />
-          <Achievements />
-          <Beyond />
-          <Contact />
-        </Timeline>
+        {/* The journey — each chapter is a full-width editorial band */}
+        <Education />
+        <Global />
+        <Experience />
+        <Projects />
+        <Achievements />
+        <Contact />
       </main>
 
       <Footer />

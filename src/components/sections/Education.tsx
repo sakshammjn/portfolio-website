@@ -1,41 +1,32 @@
 import { education, educationHighlight } from '@/data/content'
-import { TimelineItem } from '@/components/timeline/TimelineItem'
-import { SectionHeading } from '@/components/ui/SectionHeading'
-import { MilestoneCard } from '@/components/ui/MilestoneCard'
+import { Chapter } from '@/components/ui/Chapter'
+import { MilestoneRow } from '@/components/ui/MilestoneRow'
 import { Reveal } from '@/components/ui/Reveal'
 
 export function Education() {
   return (
-    <TimelineItem id="education" label="Education" side="left">
-      <SectionHeading
-        eyebrow="01 — Education"
-        title="Where the foundation was laid"
-      />
+    <Chapter
+      id="education"
+      index="01"
+      label="Education"
+      lede="Where the foundation was laid."
+    >
+      {education.map((card) => (
+        <MilestoneRow key={card.id} card={card} />
+      ))}
 
-      <div className="space-y-6">
-        {education.map((card) => (
-          <Reveal key={card.id}>
-            <MilestoneCard card={card} />
-          </Reveal>
-        ))}
-
-        {/* The headline number, given room to breathe */}
-        <Reveal delay={0.1}>
-          <div className="flex items-baseline gap-4">
-            <span className="font-display text-6xl font-medium leading-none text-accent sm:text-7xl">
-              {educationHighlight.metric}
-            </span>
-            <div className="flex flex-col">
-              <span className="font-mono text-xs uppercase tracking-widest text-fg-faint">
-                {educationHighlight.metricLabel}
-              </span>
-              <span className="text-sm text-fg-muted">
-                {educationHighlight.caption}
-              </span>
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </TimelineItem>
+      {/* The headline number — a restrained, single-line stat. */}
+      <Reveal delay={0.1}>
+        <div className="mt-10 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-line pt-8">
+          <span className="font-hero text-3xl font-bold tracking-tight text-accent sm:text-4xl">
+            {educationHighlight.metric}
+          </span>
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-fg-faint">
+            {educationHighlight.metricLabel}
+          </span>
+          <span className="text-fg-muted">— {educationHighlight.caption}</span>
+        </div>
+      </Reveal>
+    </Chapter>
   )
 }

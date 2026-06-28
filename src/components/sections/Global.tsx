@@ -1,24 +1,18 @@
 import { global } from '@/data/content'
-import { TimelineItem } from '@/components/timeline/TimelineItem'
-import { SectionHeading } from '@/components/ui/SectionHeading'
-import { MilestoneCard } from '@/components/ui/MilestoneCard'
-import { Reveal } from '@/components/ui/Reveal'
+import { Chapter } from '@/components/ui/Chapter'
+import { MilestoneRow } from '@/components/ui/MilestoneRow'
 
 export function Global() {
   return (
-    <TimelineItem id="global" label="Global Exposure" side="right">
-      <SectionHeading
-        eyebrow="02 — Global Exposure"
-        title="Stepping beyond borders"
-      />
-
-      <div className="space-y-6">
-        {global.map((card) => (
-          <Reveal key={card.id}>
-            <MilestoneCard card={card} />
-          </Reveal>
-        ))}
-      </div>
-    </TimelineItem>
+    <Chapter
+      id="global"
+      index="02"
+      label="Global Exposure"
+      lede="Stepping beyond borders."
+    >
+      {global.map((card) => (
+        <MilestoneRow key={card.id} card={card} />
+      ))}
+    </Chapter>
   )
 }

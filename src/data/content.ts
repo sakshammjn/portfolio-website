@@ -5,16 +5,6 @@
  *     Placeholders in [brackets] are meant to be replaced with your real details.
  */
 
-export interface NavChapter {
-  id: string
-  index: string
-  label: string
-}
-
-export interface SkillTag {
-  label: string
-}
-
 export interface TimelineCard {
   id: string
   title: string
@@ -42,11 +32,20 @@ export interface Achievement {
   year?: string
 }
 
-export interface Hobby {
+export interface BlogPost {
   id: string
-  emoji: string
   title: string
-  detail: string
+  blurb: string
+  /** Short topic label, shown small + uppercase on the right. */
+  category: string
+  /** Human date, e.g. 'Feb 2026'. */
+  date: string
+  /** Rough reading-time estimate in minutes. */
+  readMins: number
+  /** Where the post opens. Use '#' until the post exists. */
+  href: string
+  /** Set true for posts hosted elsewhere — renders an ↗ on hover. */
+  external?: boolean
 }
 
 export interface SocialLink {
@@ -59,27 +58,31 @@ export interface SocialLink {
  * Personal / hero
  * ----------------------------------------------------------------- */
 export const profile = {
-  name: 'Saksham Mahajan',
-  role: '.NET Developer · Security Enthusiast',
-  location: 'India',
-  intro:
-    'I build secure, scalable software with .NET and C#, and I am fascinated by the space where solid engineering meets security. What follows is not a résumé — it is a journey through the milestones that shaped how I think and build.',
-  // Used by the hero word-rotator
-  facets: ['build with .NET', 'think about security', 'learn relentlessly', 'love the game'],
+  // The wordmark rendered in the hero ({ saksham }) and the footer.
+  name: 'saksham',
 }
 
-/* ----------------------------------------------------------------- *
- * Chapter navigation (the on-screen "metro map")
- * ----------------------------------------------------------------- */
-export const chapters: NavChapter[] = [
-  { id: 'intro', index: '00', label: 'Introduction' },
-  { id: 'education', index: '01', label: 'Education' },
-  { id: 'global', index: '02', label: 'Global Exposure' },
-  { id: 'experience', index: '03', label: 'Experience' },
-  { id: 'projects', index: '04', label: 'Projects' },
-  { id: 'achievements', index: '05', label: 'Achievements' },
-  { id: 'beyond', index: '06', label: 'Beyond Code' },
-  { id: 'contact', index: '07', label: 'Contact' },
+/**
+ * Skills for the two hero marquee strips that flank the name — the top band
+ * scrolls one way, the bottom band the other.
+ */
+export const marqueeTop: string[] = [
+  '.NET',
+  'C#',
+  'Azure',
+  'Python',
+  'MySQL',
+  'C++',
+  'REST APIs',
+]
+export const marqueeBottom: string[] = [
+  'Security',
+  'Machine Learning',
+  'React',
+  'Node.js',
+  'TypeScript',
+  'MongoDB',
+  'IoT',
 ]
 
 /* ----------------------------------------------------------------- *
@@ -88,17 +91,17 @@ export const chapters: NavChapter[] = [
 export const education: TimelineCard[] = [
   {
     id: 'btech',
-    title: 'B.Tech — Computer Science & Engineering (IoT)',
-    subtitle: '[University Name]',
-    period: '[2021] – [2025]',
+    title: 'B.Tech — Computer Science & Engineering',
+    subtitle: 'G H Patel College of Engineering & Technology',
+    period: '2022 – 2026',
     description:
-      'A specialisation in the Internet of Things gave me a systems-level view of software — from constrained embedded devices all the way up to the cloud. I graduated with a CGPA of 9.41, consistently ranking among the top of my cohort while balancing internships and self-driven projects.',
-    tags: ['CGPA 9.41 / 10', 'IoT Specialisation', 'Data Structures', 'Networks'],
+      'Four years of convincing machines to talk to each other — from tiny embedded chips all the way up to the cloud. Specialised in IoT, stayed near the top of the cohort, and never skipped the fun: internships, side projects, and the occasional all-nighter.',
+    tags: ['Programming', 'IoT Specialisation', 'Data Structures', 'Networks'],
   },
 ]
 
 export const educationHighlight = {
-  metric: '9.41',
+  metric: '9.50',
   metricLabel: 'CGPA / 10',
   caption: 'Top of cohort across the program',
 }
@@ -109,11 +112,11 @@ export const educationHighlight = {
 export const global: TimelineCard[] = [
   {
     id: 'russia',
-    title: 'Sponsored University Programme — Russia',
-    subtitle: 'International academic exposure',
-    period: '[Year]',
+    title: 'International Exchange Programme — Russia',
+    subtitle: 'Ural Federal University',
+    period: '2025',
     description:
-      'Selected for a fully sponsored university programme in Russia — a chance to study, collaborate and live within an entirely different academic and cultural system. It reshaped how I approach problems: more perspectives, fewer assumptions, and a genuine comfort working across cultures and time zones.',
+      'Selected for a fully sponsored university programme in Russia — a chance to study, collaborate and live within an entirely different academic and cultural system. I tend to chase whatever genuinely interests me, so I picked up Russian along the way. It reshaped how I approach problems: more perspectives, fewer assumptions, and a genuine comfort working across cultures and time zones.',
     tags: ['International Exposure', 'Cross-cultural Collaboration', 'Sponsored Programme'],
   },
 ]
@@ -124,22 +127,13 @@ export const global: TimelineCard[] = [
 export const experience: TimelineCard[] = [
   {
     id: 'dotnet',
-    title: 'Software Developer — .NET',
-    subtitle: '[Current Company]',
-    period: '[2024] – Present',
+    title: 'Software Developer',
+    subtitle: 'Miracle Accounting Software',
+    period: '2026 – Present',
     description:
       'Designing and shipping backend services and APIs with C# and the .NET stack, backed by MySQL and deployed on Microsoft Azure. Day to day, I focus on clean architecture, reliable data access, and cloud deployments that scale without surprises.',
     tags: ['.NET', 'C#', 'MySQL', 'Azure', 'REST APIs', 'Entity Framework'],
-  },
-  {
-    id: 'cybersec',
-    title: 'Cybersecurity Intern',
-    subtitle: '[Company / Lab]',
-    period: '[Year]',
-    description:
-      'Worked hands-on with security tooling and threat analysis — understanding how systems are attacked so I can build software that defends against it. This is where my conviction took shape: security is not a feature you bolt on, it is a way of thinking from the first line of code.',
-    tags: ['Threat Analysis', 'Security Tooling', 'Vulnerability Assessment'],
-  },
+  }
 ]
 
 /* ----------------------------------------------------------------- *
@@ -175,16 +169,7 @@ export const projects: Project[] = [
     stack: ['React', 'Express', 'MongoDB', 'Tailwind'],
     repo: '[github-link]',
     featured: true,
-  },
-  {
-    id: 'more',
-    name: 'And more',
-    tagline: 'Experiments, tools & coursework',
-    description:
-      'A trail of smaller projects — security utilities, IoT experiments and coursework — where most of the real learning happened.',
-    stack: ['C#', 'Python', 'JavaScript'],
-    repo: '[github-profile]',
-  },
+  }
 ]
 
 /* ----------------------------------------------------------------- *
@@ -219,29 +204,38 @@ export const achievements: Achievement[] = [
 ]
 
 /* ----------------------------------------------------------------- *
- * 06 — Beyond code
+ * 06 — Blog / essays  (rendered on the /blogs page)
+ *
+ * ✏️  Replace these starters with your real posts. Set `href` to the post URL
+ *     and `external: true` for anything hosted off-site (Medium, Substack…).
  * ----------------------------------------------------------------- */
-export const hobbies: Hobby[] = [
+export const blogPosts: BlogPost[] = [
   {
-    id: 'french',
-    emoji: '🇫🇷',
-    title: 'Learning French',
-    detail:
-      'Maintaining a daily French learning streak — the same compounding discipline I bring to code, one small consistent step at a time.',
+    id: 'first',
+    title: '[Your first essay title]',
+    blurb: 'A one-line teaser that makes someone want to read it.',
+    category: 'Engineering',
+    date: 'Feb 2026',
+    readMins: 6,
+    href: '#',
   },
   {
-    id: 'football',
-    emoji: '⚽',
-    title: 'Football — Visca Barça',
-    detail:
-      'A devoted FC Barcelona supporter. I love the game for the same reason I love systems: it rewards patience, structure and a beautiful idea executed together.',
+    id: 'second',
+    title: '[Your second essay title]',
+    blurb: 'What you learned, argued, or built — in a single sentence.',
+    category: 'Security',
+    date: 'Feb 2026',
+    readMins: 9,
+    href: '#',
   },
   {
-    id: 'curiosity',
-    emoji: '📚',
-    title: 'Always Curious',
-    detail:
-      'Reading about security, technology and how things work — chasing the next thing worth understanding.',
+    id: 'third',
+    title: '[Your third essay title]',
+    blurb: 'Another hook. Keep it concrete and specific.',
+    category: 'Notes',
+    date: 'Jan 2026',
+    readMins: 4,
+    href: '#',
   },
 ]
 
@@ -249,13 +243,13 @@ export const hobbies: Hobby[] = [
  * 07 — Contact
  * ----------------------------------------------------------------- */
 export const contact = {
-  email: 'saksham@example.com', // ✏️ replace with your public email
+  email: 'sakshammahajan2004@gmail.com',
   blurb:
     'Building something secure, ambitious, or a little unusual? I would love to hear about it.',
 }
 
 export const socials: SocialLink[] = [
-  { label: 'GitHub', href: 'https://github.com/[username]', handle: '@[username]' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/[username]', handle: '/in/[username]' },
+  { label: 'GitHub', href: 'https://github.com/sakshammjn', handle: '@sakshammjn' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/sakshammjn', handle: '/in/sakshammjn' },
   { label: 'Email', href: 'mailto:saksham@example.com', handle: 'saksham@example.com' },
 ]

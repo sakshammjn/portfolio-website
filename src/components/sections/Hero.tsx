@@ -1,10 +1,14 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { profile } from '@/data/content'
+import { profile, marqueeTop, marqueeBottom } from '@/data/content'
 import { easeOut } from '@/lib/motion'
+import { SkillMarquee } from '@/components/effects/SkillMarquee'
+import { FlipText } from '@/components/effects/FlipText'
 
 /**
- * Chapter 00 — the opening. A full-height, centred title card that sets the
- * editorial tone before the timeline begins.
+ * Chapter 00 — the opening. A hard horizontal split: the name fills the top
+ * half, "PORTFOLIO" the bottom. The two halves invert each other using the
+ * theme's own ink/fg tokens, so the contrast holds in both dark and light
+ * mode. A tilted, faded skill band drifts behind each half.
  */
 export function Hero() {
   const prefersReduced = useReducedMotion()
@@ -13,60 +17,71 @@ export function Hero() {
     prefersReduced
       ? {}
       : {
-          initial: { opacity: 0, y: 28 },
+          initial: { opacity: 0, y: 24 },
           animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.8, delay, ease: easeOut },
+          transition: { duration: 0.9, delay, ease: easeOut },
         }
+
+  // Faded tone-on-tone band, tilted across its half. Rotation/centring live on
+  // a static wrapper so framer's opacity tween can't clobber the transform.
+  const band = (
+    skills: string[],
+    baseDirection: 1 | -1,
+    separator: string,
+    position: string,
+    rotation: string,
+  ) => (
+    <div
+      className={`pointer-events-none absolute left-1/2 w-[106%] -translate-x-1/2 ${rotation} ${position}`}
+    >
+      <motion.div
+        initial={prefersReduced ? undefined : { opacity: 0 }}
+        animate={prefersReduced ? undefined : { opacity: 0.16 }}
+        transition={{ duration: 1.2, delay: 0.4, ease: easeOut }}
+        className={prefersReduced ? 'opacity-[0.16]' : undefined}
+      >
+        <SkillMarquee
+          skills={skills}
+          baseDirection={baseDirection}
+          separator={separator}
+        />
+      </motion.div>
+    </div>
+  )
 
   return (
     <section
       id="intro"
       aria-label="Introduction"
-      className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 text-center"
+      className="relative flex min-h-[100svh] flex-col"
     >
-      <motion.p {...rise(0.1)} className="eyebrow mb-6">
-        00 — The Journey of
-      </motion.p>
+      {/* Top half — name, on the ink surface; sits low, hugging the seam. The
+          shared max-w wrapper is what makes the name and PORTFOLIO equal width. */}
+      <div className="relative flex flex-1 items-end justify-center overflow-hidden bg-ink px-6 pb-2 text-fg sm:pb-3">
+        {band(marqueeTop, -1, '✧', 'top-[30%]', 'rotate-[4deg]')}
+        <motion.h1 {...rise(0.15)} className="relative z-10 mx-auto w-full max-w-5xl">
+          <FlipText
+            label={profile.name}
+            segments={[
+              { text: '{ ', accent: true },
+              { text: profile.name },
+              { text: ' }', accent: true },
+            ]}
+          />
+        </motion.h1>
+      </div>
 
-      <motion.h1
-        {...rise(0.2)}
-        className="font-display text-5xl font-medium leading-[1.05] tracking-tight text-fg sm:text-7xl md:text-8xl"
-      >
-        {profile.name}
-      </motion.h1>
-
-      <motion.p
-        {...rise(0.35)}
-        className="mt-6 font-mono text-sm uppercase tracking-[0.2em] text-accent sm:text-base"
-      >
-        {profile.role}
-      </motion.p>
-
-      <motion.p
-        {...rise(0.5)}
-        className="mt-8 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg"
-      >
-        {profile.intro}
-      </motion.p>
-
-      {/* Scroll cue */}
-      <motion.a
-        href="#education"
-        aria-label="Begin the journey"
-        {...rise(0.7)}
-        className="group absolute bottom-10 flex flex-col items-center gap-2 text-fg-faint transition-colors hover:text-fg"
-      >
-        <span className="font-mono text-xs uppercase tracking-[0.2em]">
-          Begin
-        </span>
-        <motion.span
-          aria-hidden
-          className="block h-8 w-px bg-gradient-to-b from-accent to-transparent"
-          animate={prefersReduced ? undefined : { scaleY: [0.4, 1, 0.4] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ originY: 0 }}
-        />
-      </motion.a>
+      {/* Bottom half — the single word, hugging the seam from below. */}
+      <div className="relative flex flex-1 items-start justify-center overflow-hidden bg-fg px-6 pt-2 text-ink sm:pt-3">
+        <motion.div {...rise(0.3)} className="relative z-10 mx-auto w-full max-w-5xl">
+          <FlipText
+            label="Portfolio"
+            direction="right"
+            segments={[{ text: 'portfolio' }]}
+          />
+        </motion.div>
+        {band(marqueeBottom, -1, '✦', 'bottom-[30%]', '-rotate-[4deg]')}
+      </div>
     </section>
   )
 }
