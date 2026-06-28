@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0A0A0B" />
-  <!-- the timeline spine + node motif -->
-  <line x1="32" y1="12" x2="32" y2="52" stroke="#26262b" stroke-width="3" stroke-linecap="round" />
-  <line x1="32" y1="12" x2="32" y2="36" stroke="#FF6A3D" stroke-width="3" stroke-linecap="round" />
-  <circle cx="32" cy="36" r="6" fill="#0A0A0B" stroke="#FF6A3D" stroke-width="3" />
-  <text x="32" y="40" font-family="Georgia, serif" font-size="9" fill="#EDEDF0" text-anchor="middle" font-style="italic">SM</text>
+  <!-- { } in Clash Display 700 (font-hero) — the exact braces from the hero mark. -->
+  <g fill="#FF6A3D" transform="matrix(0.06075,0,0,-0.06075,5.7849,52.3524)">
+    <path d="M359 -60H329Q221 -60 165.5 -7.5Q110 45 110 134V194Q110 223 96.5 235.0Q83 247 48 247H20V423H48Q83 423 96.5 435.0Q110 447 110 476V536Q110 625 165.5 677.5Q221 730 329 730H359V547H324Q283 547 283 508V461Q283 341 156 341V329Q283 329 283 209V162Q283 123 324 123H359Z" />
+    <path d="M504 730H534Q642 730 697.5 677.5Q753 625 753 536V476Q753 447 766.5 435.0Q780 423 815 423H843V247H815Q780 247 766.5 235.0Q753 223 753 194V134Q753 45 697.5 -7.5Q642 -60 534 -60H504V123H539Q580 123 580 162V209Q580 329 707 329V341Q580 341 580 461V508Q580 547 539 547H504Z" />
+  </g>
 </svg>

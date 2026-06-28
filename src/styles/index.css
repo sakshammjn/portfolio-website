@@ -4,10 +4,10 @@
  * Design tokens — Tailwind v4 CSS-first theme.
  * These generate utilities automatically:
  *   --color-accent  -> text-accent / bg-accent / border-accent ...
- *   --font-display  -> font-display
+ *   --font-hero     -> font-hero
  * ------------------------------------------------------------------ */
 @theme {
-  /* Surfaces */
+  /* Surfaces — defaults (dark). Overridden per-theme in the base layer. */
   --color-ink: #0a0a0b;
   --color-ink-2: #101013;
   --color-surface: #16161b;
@@ -25,22 +25,54 @@
   --color-accent-soft: #ffa875;
 
   /* Typography */
-  --font-display: 'Fraunces', ui-serif, Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  /* Heavy geometric "techy" face for the hero name / marquee. */
+  --font-hero: 'Clash Display', 'Space Grotesk', 'Inter', system-ui, sans-serif;
 
   /* Layout rhythm */
   --spacing-chapter: 11rem;
 }
 
 /* ------------------------------------------------------------------ *
+ * Theme palettes — the color custom properties are reassigned per
+ * theme so every `text-fg` / `bg-ink` / `border-line` utility follows
+ * along automatically. Dark is the default; `.light` on <html> flips it.
+ * ------------------------------------------------------------------ */
+html.dark {
+  color-scheme: dark;
+
+  --color-ink: #0a0a0b;
+  --color-ink-2: #101013;
+  --color-surface: #16161b;
+  --color-fg: #ededf0;
+  --color-fg-muted: #9a9aa3;
+  --color-fg-faint: #6b6b73;
+  --color-line: #ffffff14;
+
+  /* Dotted-grid backdrop tuning */
+  --dot: #ffffff0a;
+}
+
+html.light {
+  color-scheme: light;
+
+  /* Warm paper, à la the Anthropic editorial pages */
+  --color-ink: #faf9f5;
+  --color-ink-2: #f3f1e9;
+  --color-surface: #ffffff;
+  --color-fg: #1a1916;
+  --color-fg-muted: #57544c;
+  --color-fg-faint: #8c897e;
+  --color-line: #1a191614;
+
+  --dot: #1a191612;
+}
+
+/* ------------------------------------------------------------------ *
  * Base layer
  * ------------------------------------------------------------------ */
 @layer base {
-  :root {
-    color-scheme: dark;
-  }
-
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -57,12 +89,13 @@
     background-color: var(--color-ink);
     color: var(--color-fg);
     font-family: var(--font-sans);
-    /* Subtle, non-flashy ambient glow anchored top-center */
-    background-image: radial-gradient(
-      60rem 40rem at 50% -10%,
-      #ff6a3d0f,
-      transparent 70%
-    );
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease;
+    /* A fine dotted grid (Anthropic-style paper texture) over the flat ink. */
+    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: 0 0;
     background-attachment: fixed;
   }
 
@@ -86,12 +119,12 @@
     background: var(--color-ink);
   }
   ::-webkit-scrollbar-thumb {
-    background: #2a2a30;
+    background: color-mix(in srgb, var(--color-fg) 18%, transparent);
     border-radius: 999px;
     border: 2px solid var(--color-ink);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #3a3a42;
+    background: color-mix(in srgb, var(--color-fg) 30%, transparent);
   }
 }
 
@@ -99,23 +132,44 @@
  * Reusable component classes
  * ------------------------------------------------------------------ */
 @layer components {
-  .glass {
-    background: linear-gradient(
-      180deg,
-      #ffffff0a,
-      #ffffff05
+  /* Soft fade on both edges so the marquee items dissolve into the corners. */
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 16%,
+      #000 84%,
+      transparent 100%
     );
-    border: 1px solid var(--color-line);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 16%,
+      #000 84%,
+      transparent 100%
+    );
   }
 
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-fg-faint);
+  /* Hover-to-swap heading: each letter slides out to the left while an
+     identical copy slides in from the right, landing in the same spot. The
+     odd letters (including the braces) run first, then the even letters. */
+  /* Driven by the `.is-playing` class (toggled in JS) rather than :hover, so a
+     swap that has started always runs to completion even if the pointer leaves. */
+  .flip-inner.is-playing .flip-letter:nth-child(odd) .flip-ch,
+  .flip-inner.is-playing .flip-letter:nth-child(odd) .flip-clone {
+    animation: slide-swap 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .flip-inner.is-playing .flip-letter:nth-child(even) .flip-ch,
+  .flip-inner.is-playing .flip-letter:nth-child(even) .flip-clone {
+    /* delay = odd duration (0.26s) + a small gap, so odd fully finishes first */
+    animation: slide-swap 0.26s cubic-bezier(0.22, 1, 0.36, 1) 0.32s;
+  }
+  /* Rightward variant — letters exit right, clones enter from the left. */
+  .flip-right.is-playing .flip-letter:nth-child(odd) .flip-ch,
+  .flip-right.is-playing .flip-letter:nth-child(odd) .flip-clone,
+  .flip-right.is-playing .flip-letter:nth-child(even) .flip-ch,
+  .flip-right.is-playing .flip-letter:nth-child(even) .flip-clone {
+    animation-name: slide-swap-right;
   }
 
   /* Thin animated underline used on inline links */
@@ -128,5 +182,41 @@
   }
   .link-underline:hover {
     background-size: 100% 1px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Keyframes
+ * ------------------------------------------------------------------ */
+
+/* Slide the cell left by one letter width: the in-flow letter exits left and
+   its clone (parked just off the right edge) takes its place. */
+/* opacity:1 keeps the clone (hidden at rest) visible only while it slides in;
+   the in-flow letter is already opaque, so this leaves it unchanged. */
+@keyframes slide-swap {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-100%);
+  }
+}
+@keyframes slide-swap-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-inner.is-playing .flip-ch,
+  .flip-inner.is-playing .flip-clone {
+    animation: none;
   }
 }
