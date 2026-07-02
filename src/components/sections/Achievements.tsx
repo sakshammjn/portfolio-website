@@ -17,7 +17,9 @@ export function Achievements() {
           {achievements.map((a) => (
             <div
               key={a.id}
-              className="bg-ink p-6 transition-colors hover:bg-surface sm:p-8"
+              className={`bg-ink p-6 transition-colors hover:bg-surface sm:p-8 ${
+                a.featured ? 'sm:col-span-2' : ''
+              }`}
             >
               <div className="flex items-baseline justify-between gap-3">
                 <h3 className="font-hero text-lg font-bold tracking-tight text-fg">

@@ -6,7 +6,7 @@ export function Experience() {
   return (
     <Chapter
       id="experience"
-      index="03"
+      index="01"
       label="Experience"
       lede="Building in the real world."
     >

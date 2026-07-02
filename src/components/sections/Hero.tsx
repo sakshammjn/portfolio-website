@@ -60,14 +60,19 @@ export function Hero() {
       <div className="relative flex flex-1 items-end justify-center overflow-hidden bg-ink px-6 pb-2 text-fg sm:pb-3">
         {band(marqueeTop, -1, '✧', 'top-[30%]', 'rotate-[4deg]')}
         <motion.h1 {...rise(0.15)} className="relative z-10 mx-auto w-full max-w-5xl">
-          <FlipText
-            label={profile.name}
-            segments={[
-              { text: '{ ', accent: true },
-              { text: profile.name },
-              { text: ' }', accent: true },
-            ]}
-          />
+          {/* Full name as real text for search engines + screen readers; the
+              styled wordmark below is decorative. */}
+          <span className="sr-only">Saksham Mahajan — Software Engineer</span>
+          <span aria-hidden>
+            <FlipText
+              label={profile.name}
+              segments={[
+                { text: '{ ', accent: true },
+                { text: profile.name },
+                { text: ' }', accent: true },
+              ]}
+            />
+          </span>
         </motion.h1>
       </div>
 

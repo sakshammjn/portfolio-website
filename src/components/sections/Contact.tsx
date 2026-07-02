@@ -1,59 +1,74 @@
-import { contact, socials } from '@/data/content'
+import { contact, resume, socials } from '@/data/content'
 import { Reveal } from '@/components/ui/Reveal'
+import { LocalTime } from '@/components/ui/LocalTime'
 
 /**
- * The closing chapter — a full-bleed inverted band (ink text on the fg
- * surface) that mirrors the hero's bottom half, bookending the page.
+ * The closing band — inverted paper surface with the three-voice headline,
+ * the email as the hero CTA, the classic socials row, and a live status strip.
  */
 export function Contact() {
   return (
     <section
       id="contact"
       aria-label="Contact"
-      className="scroll-mt-24 bg-fg px-6 py-28 text-ink sm:py-36"
+      className="scroll-mt-24 bg-fg px-6 py-12 text-ink sm:py-18"
     >
-      <div className="mx-auto max-w-5xl text-center">
-        <Reveal>
-          <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-ink/50">
-            The journey continues
-          </p>
-        </Reveal>
+      <div className="mx-auto max-w-5xl">
+        {/* Headline — three voices of the same sentence. */}
         <Reveal delay={0.05}>
-          <h2 className="font-hero text-5xl font-bold uppercase leading-[0.92] tracking-tight sm:text-7xl">
+          <h2 className="text-center font-hero text-[clamp(2.5rem,9vw,6.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
             Let's build
             <br />
-            something <span className="text-accent">amazing...</span>
+            <span className="text-transparent [-webkit-text-stroke:2px_var(--color-ink)]">
+              something
+            </span>{' '}
+            <span className="text-accent">amazing...</span>
           </h2>
         </Reveal>
+
+        {/* Email CTA */}
         <Reveal delay={0.1}>
-          <p className="mx-auto mt-6 max-w-md leading-relaxed text-ink/70">
-            {contact.blurb}
-          </p>
+          <div className="mt-12 text-center">
+            <p className="font-mono text-xs uppercase tracking-[0.25em] text-ink/40">
+              Drop a line — replies within a day
+            </p>
+            <a
+              href={`mailto:${contact.email}`}
+              className="mt-4 inline-block max-w-full break-all border-b-4 border-accent pb-2 font-hero text-[clamp(1.15rem,3.2vw,2.25rem)] font-bold leading-tight text-ink transition-colors hover:text-accent"
+            >
+              {contact.email}
+            </a>
+          </div>
         </Reveal>
 
+        {/* Socials — the classic dot-row, with the live time line beneath. */}
         <Reveal delay={0.15}>
-          <a
-            href={`mailto:${contact.email}`}
-            className="link-underline mt-10 inline-block font-hero text-2xl font-bold text-ink sm:text-4xl"
-          >
-            {contact.email}
-          </a>
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-            {socials.map((s) => (
+          <div className="mt-10 flex flex-col items-center gap-6">
+            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
               <a
-                key={s.label}
-                href={s.href}
-                target={s.href.startsWith('http') ? '_blank' : undefined}
+                href={resume.href}
+                target="_blank"
                 rel="noreferrer noopener"
                 className="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-ink/60 transition-colors hover:text-accent"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-ink/40 transition-colors group-hover:bg-accent" />
-                {s.label}
+                {resume.label}
               </a>
-            ))}
+              {/* Email is omitted — the big address above is the email CTA. */}
+              {socials.filter((s) => s.label !== 'Email').map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target={s.href.startsWith('http') ? '_blank' : undefined}
+                  rel="noreferrer noopener"
+                  className="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-ink/60 transition-colors hover:text-accent"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-ink/40 transition-colors group-hover:bg-accent" />
+                  {s.label}
+                </a>
+              ))}
+            </div>
+            <LocalTime />
           </div>
         </Reveal>
       </div>

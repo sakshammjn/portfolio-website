@@ -27,35 +27,37 @@
     </script>
 
     <!-- Primary SEO -->
-    <title>Saksham Mahajan</title>
+    <title>Saksham Mahajan — Software Engineer</title>
     <meta
       name="description"
-      content="The journey of Saksham Mahajan — a .NET developer and security enthusiast. Education, global experiences, professional work, projects and achievements, told as an interactive timeline."
+      content="Saksham Mahajan is a software engineer building .NET backend services at RKIT Software, contributing to JSON Schema open source, and shipping projects from ML to Chrome extensions."
     />
     <meta
       name="keywords"
-      content="Saksham Mahajan, .NET Developer, C#, Azure, Cybersecurity, Machine Learning, Portfolio, Software Engineer"
+      content="Saksham Mahajan, sakshammjn, Software Engineer, .NET Developer, C#, Azure, Open Source, JSON Schema, GSoC, Portfolio"
     />
     <meta name="author" content="Saksham Mahajan" />
     <link rel="canonical" href="https://saksham-mahajan.vercel.app/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Saksham Mahajan — .NET Developer & Security Enthusiast" />
+    <meta property="og:title" content="Saksham Mahajan — Software Engineer" />
     <meta
       property="og:description"
-      content="An interactive timeline journey through the milestones, projects and achievements of Saksham Mahajan."
+      content="Software engineer building .NET backend services, contributing to JSON Schema open source, and shipping projects from ML to Chrome extensions."
     />
     <meta property="og:url" content="https://saksham-mahajan.vercel.app/" />
     <meta property="og:image" content="https://saksham-mahajan.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Saksham Mahajan" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Saksham Mahajan — .NET Developer & Security Enthusiast" />
+    <meta name="twitter:title" content="Saksham Mahajan — Software Engineer" />
     <meta
       name="twitter:description"
-      content="An interactive timeline journey through the milestones, projects and achievements of Saksham Mahajan."
+      content="Software engineer building .NET backend services, contributing to JSON Schema open source, and shipping projects from ML to Chrome extensions."
     />
     <meta name="twitter:image" content="https://saksham-mahajan.vercel.app/og-image.png" />
 
@@ -73,18 +75,44 @@
       rel="stylesheet"
     />
 
-    <!-- Structured data: Person -->
+    <!-- Structured data: Person. `sameAs` ties this site to the GitHub/LinkedIn
+         profiles so Google resolves them all to one entity. Keep the URLs in
+         sync with `socials` in src/data/content.ts. -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
+        "@id": "https://saksham-mahajan.vercel.app/#person",
         "name": "Saksham Mahajan",
-        "jobTitle": ".NET Developer & Security Enthusiast",
+        "alternateName": "sakshammjn",
+        "jobTitle": "Software Engineer",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "RKIT Software"
+        },
         "url": "https://saksham-mahajan.vercel.app/",
-        "knowsAbout": [".NET", "C#", "Azure", "MySQL", "Cybersecurity", "Machine Learning"],
+        "email": "mailto:sakshammahajan2004@gmail.com",
+        "sameAs": [
+          "https://github.com/sakshammjn",
+          "https://www.linkedin.com/in/sakshammjn/"
+        ],
+        "knowsAbout": [
+          ".NET",
+          "C#",
+          "Azure",
+          "REST APIs",
+          "React",
+          "TypeScript",
+          "JSON Schema",
+          "Machine Learning"
+        ],
         "alumniOf": {
           "@type": "CollegeOrUniversity",
-          "name": "B.Tech, Computer Science & Engineering (IoT)"
+          "name": "G H Patel College of Engineering & Technology"
+        },
+        "nationality": {
+          "@type": "Country",
+          "name": "India"
         }
       }
     </script>

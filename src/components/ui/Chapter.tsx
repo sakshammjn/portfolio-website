@@ -29,12 +29,12 @@ export function Chapter({ id, index, label, lede, children }: ChapterProps) {
         <header className="mb-12 sm:mb-16">
           <Reveal>
             <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
-              <span className="font-hero text-5xl font-bold leading-none tracking-tight sm:text-7xl">
+              <span className="font-hero text-[clamp(2.75rem,12vw,4.5rem)] font-bold leading-none tracking-tight">
                 <span className="text-accent">{'{'}</span>
                 <span className="px-1.5 text-fg-faint sm:px-2.5">{index}</span>
                 <span className="text-accent">{'}'}</span>
               </span>
-              <h2 className="font-hero text-4xl font-bold uppercase leading-none tracking-tight text-fg sm:text-6xl">
+              <h2 className="font-hero text-[clamp(1.85rem,9vw,3.75rem)] font-bold uppercase leading-none tracking-tight text-fg">
                 {label}
               </h2>
             </div>

@@ -89,6 +89,10 @@ html.light {
     background-color: var(--color-ink);
     color: var(--color-fg);
     font-family: var(--font-sans);
+    /* Safety net: nothing should ever push the page wider than the viewport.
+       `clip` (not `hidden`) avoids creating a scroll container, so position:
+       fixed/sticky descendants and smooth-scroll anchors keep working. */
+    overflow-x: clip;
     transition:
       background-color 0.4s ease,
       color 0.4s ease;

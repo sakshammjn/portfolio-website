@@ -6,7 +6,7 @@ export function Global() {
   return (
     <Chapter
       id="global"
-      index="02"
+      index="04"
       label="Global Exposure"
       lede="Stepping beyond borders."
     >

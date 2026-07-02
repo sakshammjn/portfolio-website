@@ -26,7 +26,7 @@ export function Projects() {
   return (
     <Chapter
       id="projects"
-      index="04"
+      index="03"
       label="Projects"
       lede="A few of the projects where ideas turned into working software."
     >
@@ -78,12 +78,12 @@ export function Projects() {
                     )}
                     {project.link && (
                       <a
-                        href={project.link}
+                        href={project.link.href}
                         target="_blank"
                         rel="noreferrer noopener"
                         className="group/link inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-fg-muted transition-colors hover:text-accent"
                       >
-                        Live <ArrowIcon />
+                        {project.link.label} <ArrowIcon />
                       </a>
                     )}
                   </div>

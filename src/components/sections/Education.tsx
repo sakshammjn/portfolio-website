@@ -7,7 +7,7 @@ export function Education() {
   return (
     <Chapter
       id="education"
-      index="01"
+      index="06"
       label="Education"
       lede="Where the foundation was laid."
     >

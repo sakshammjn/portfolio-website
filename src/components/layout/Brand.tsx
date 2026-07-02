@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { easeOut } from '@/lib/motion'
-import { socials } from '@/data/content'
+import { resume, socials } from '@/data/content'
 
 /**
  * Menu entries shown in the slide-in panel.
  *
- * ✏️  Add more here as the site grows (sections, résumé, theme toggle…).
+ * ✏️  Add more here as the site grows (sections, theme toggle…).
  */
-const menuLinks: Array<{ label: string; href: string }> = [
+const menuLinks: Array<{ label: string; href: string; external?: boolean }> = [
   { label: 'Home', href: '/' },
   { label: 'Blogs', href: '/blogs' },
 ]
@@ -161,6 +161,8 @@ export function Brand() {
                   <motion.a
                     key={link.label}
                     href={link.href}
+                    target={link.external ? '_blank' : undefined}
+                    rel={link.external ? 'noreferrer noopener' : undefined}
                     onClick={() => setOpen(false)}
                     variants={
                       prefersReduced
@@ -198,6 +200,14 @@ export function Brand() {
                   Elsewhere
                 </p>
                 <div className="flex flex-col gap-2.5">
+                  <a
+                    href={resume.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="w-fit font-mono text-sm text-fg-muted transition-colors hover:text-accent"
+                  >
+                    {resume.label}
+                  </a>
                   {socials.map((s) => (
                     <a
                       key={s.label}
