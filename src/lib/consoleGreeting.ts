@@ -6,47 +6,52 @@
  *
  * Called once at startup from main.tsx.
  *
- * ─────────────────────────────────────────────────────────────────────────
- *  EDIT EVERYTHING IN `content` BELOW. The command wiring needs no changes.
- * ─────────────────────────────────────────────────────────────────────────
+ * Contact details, socials, résumé and projects are pulled from content.ts —
+ * the single source of truth — so this CLI can't drift from the site. Only
+ * the console-exclusive lines (about, stack, secret…) live here.
  */
+import { contact, profile, projects, resume, socials } from '@/data/content'
+
+// Full origin so the résumé line prints as a clickable URL — and stays
+// correct after the custom-domain swap.
+const origin = typeof window !== 'undefined' ? window.location.origin : ''
 
 const content = {
   hire: [
     "open to opportunities — let's build something.",
-    'email: saksham.m@rkitsoftware.com',
+    `email: ${contact.email}`,
   ],
   about: [
-    'Saksham Mahajan — software engineer.',
-    'I build <one-line on what you do / love building>.',
+    'Saksham Mahajan — software engineer @ RKIT Software.',
+    'I build .NET backend services for a product with 100,000+ users,',
+    'and fix JSON Schema tooling in open source after hours.',
   ],
   contact: [
-    'email:    saksham.m@rkitsoftware.com',
-    'phone:    +91 XXXXX XXXXX',
-    'location: <city, country>',
+    `email:    ${contact.email}`,
+    `location: ${profile.location} (${profile.utcLabel})`,
+    'replies:  within a day',
   ],
   stack: [
-    'languages: C++, TypeScript, SQL',
-    'backend:   .NET, REST APIs',
-    'data:      MongoDB, SQL',
-    // add / trim as you like
+    'languages: C#, TypeScript, Python, C++, SQL',
+    'backend:   .NET Core, REST APIs, Entity Framework, Flask',
+    'data:      MySQL, MongoDB, Redis',
+    'frontend:  React, Tailwind',
   ],
-  socials: [
-    'github:   https://github.com/<username>',
-    'linkedin: https://linkedin.com/in/<username>',
-  ],
-  resume: [
-    'resume: <link-to-your-resume.pdf>',
-  ],
+  socials: socials
+    .filter((s) => s.href.startsWith('http'))
+    .map((s) => `${(s.label.toLowerCase() + ':').padEnd(10)}${s.href}`),
+  resume: [`resume: ${origin}${resume.href}`],
   projects: [
-    '1. <project> — <one-liner>',
-    '2. <project> — <one-liner>',
-    '3. <project> — <one-liner>',
+    ...projects.map((p, i) => `${i + 1}. ${p.name} — ${p.tagline}`),
     '',
     '...or just scroll the site, it is all there.',
   ],
   secret: [
-    '<your easter egg / personality payoff goes here>',
+    'you typed the mystery word. respect, again.',
+    '',
+    'two more, since you are the curious kind:',
+    '  1. click anywhere on the page. anywhere.',
+    '  2. switch tabs and watch the title — it misses you.',
   ],
 }
 

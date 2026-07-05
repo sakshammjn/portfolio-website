@@ -88,7 +88,7 @@ export const marqueeTop: string[] = [
 ]
 export const marqueeBottom: string[] = [
   'Security',
-  'Machine Learning',
+  'AI / ML',
   'React',
   'Node.js',
   'TypeScript',
@@ -275,7 +275,6 @@ export const projects: Project[] = [
       'A machine-learning system that classifies websites as legitimate or phishing by engineering features from URL structure, domain signals and page content. Brings my security mindset and ML together into a single, practical defence.',
     stack: ['Python', 'scikit-learn', 'Feature Engineering', 'ML'],
     repo: 'https://github.com/sakshammjn/phishing-website-ml-backend',
-    featured: true,
   },
   {
     id: 'learnova',
@@ -285,7 +284,6 @@ export const projects: Project[] = [
       'An ed-tech platform built to make structured learning feel effortless — course delivery, progress tracking and a clean, focused interface for learners. This is the build that carried our team to the top 10 of 1200+ at the Odoo Hackathon.',
     stack: ['React', 'Node.js', 'MongoDB', 'REST'],
     repo: 'https://github.com/sakshammjn/ai-generated-quiz',
-    featured: true,
   },
   {
     id: 'wimpys-list',
@@ -295,7 +293,6 @@ export const projects: Project[] = [
       'A Chrome extension that makes the daily to-do a little less of a chore — a hand-drawn, cartoonish task list that lives in the browser popup, with a satisfying sound on every add and delete. Tasks persist locally, so the list is right where you left it.',
     stack: ['Manifest V3', 'Chrome Storage API', 'Web Audio API', 'Vanilla JS', 'CSS'],
     repo: 'https://github.com/sakshammjn/wimpys-list-chrome-extension',
-    featured: true,
   },
 ]
 
@@ -330,38 +327,22 @@ export const achievements: Achievement[] = [
 /* ----------------------------------------------------------------- *
  * 06 — Blog / essays  (rendered on the /blogs page)
  *
- * ✏️  Replace these starters with your real posts. Set `href` to the post URL
- *     and `external: true` for anything hosted off-site (Medium, Substack…).
+ * ✏️  Add posts here as they're published — while this list is empty the
+ *     /blogs page shows an "in the works" note instead of placeholder rows.
+ *     Set `external: true` for anything hosted off-site (Medium, Substack…).
+ *     Example shape:
+ *     {
+ *       id: 'gsoc-story',
+ *       title: 'Six bugs, one merged PR — getting into JSON Schema',
+ *       blurb: 'How contributing to a tool I actually use became a GSoC proposal.',
+ *       category: 'Open Source',
+ *       date: 'Jul 2026',
+ *       readMins: 7,
+ *       href: 'https://…',
+ *       external: true,
+ *     },
  * ----------------------------------------------------------------- */
-export const blogPosts: BlogPost[] = [
-  {
-    id: 'first',
-    title: '[Your first essay title]',
-    blurb: 'A one-line teaser that makes someone want to read it.',
-    category: 'Engineering',
-    date: 'Feb 2026',
-    readMins: 6,
-    href: '#',
-  },
-  {
-    id: 'second',
-    title: '[Your second essay title]',
-    blurb: 'What you learned, argued, or built — in a single sentence.',
-    category: 'Security',
-    date: 'Feb 2026',
-    readMins: 9,
-    href: '#',
-  },
-  {
-    id: 'third',
-    title: '[Your third essay title]',
-    blurb: 'Another hook. Keep it concrete and specific.',
-    category: 'Notes',
-    date: 'Jan 2026',
-    readMins: 4,
-    href: '#',
-  },
-]
+export const blogPosts: BlogPost[] = []
 
 /* ----------------------------------------------------------------- *
  * 07 — Contact
@@ -377,7 +358,7 @@ export const contact = {
  */
 export const resume = {
   label: 'Résumé',
-  href: 'public/saksham-mahajan-resume.pdf',
+  href: '/saksham-mahajan-resume.pdf',
 }
 
 export const socials: SocialLink[] = [
