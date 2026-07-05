@@ -15,7 +15,6 @@
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
-    "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

@@ -1,7 +1,6 @@
 # Saksham Mahajan — Portfolio
 
-A brutalist-editorial personal portfolio, live at
-**[saksham-mahajan.vercel.app](https://saksham-mahajan.vercel.app/)**.
+A brutalist-editorial personal portfolio.
 
 The site reads like a magazine, not a component gallery: numbered chapters
 (`{ 01 } EXPERIENCE` … `{ 06 } EDUCATION`), hairline rules instead of cards,
@@ -51,7 +50,6 @@ palettes for both themes) live in [`src/styles/index.css`](src/styles/index.css)
 ```
 portfolio-website/
 ├── index.html                  # SEO meta, OG/Twitter, JSON-LD, theme pre-paint, fonts
-├── vercel.json                 # SPA rewrite so /blogs deep-links resolve
 ├── public/                     # favicon, og-image, robots, sitemap, résumé PDF
 └── src/
     ├── main.tsx                # entry + tiny path router ('/' and '/blogs')
@@ -89,19 +87,25 @@ component. SEO strings (title, description, JSON-LD) live in `index.html`.
 
 ## ☁️ Deployment
 
-**Vercel (primary).** Push to `main` and Vercel redeploys automatically.
-`vercel.json` rewrites every path to `/` so deep links resolve.
+The build output (`dist/`) is fully static — it can be served by any static
+host. Two things to configure wherever it lands:
 
-**GitHub Pages (legacy option).** Pages serves from a subpath, so build with
+1. **SPA fallback** — every path should serve `index.html` so the `/blogs`
+   deep link resolves (the routing happens client-side in `main.tsx`).
+2. **Canonical URLs** — the domain is hardcoded in `index.html` (canonical,
+   OG/Twitter, JSON-LD), `public/sitemap.xml` and `public/robots.txt`; swap
+   all of them when the domain changes.
+
+**GitHub Pages.** Pages serves project sites from a subpath, so build with
 the matching base, then publish:
 
 ```bash
 VITE_BASE=/portfolio-website/ npm run build
-npm run deploy
+npm run deploy        # pushes dist/ to the gh-pages branch
 ```
 
-Avoid serving both at once — duplicate content splits SEO signal; Vercel is
-canonical.
+With a custom domain attached, drop `VITE_BASE` (the site serves from the
+root again) and add a `404.html` copy of `index.html` for the SPA fallback.
 
 ## 📄 License
 
