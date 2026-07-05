@@ -19,27 +19,60 @@ export function BlogList() {
 
       <main className="mx-auto min-h-screen max-w-5xl px-6 pb-24 pt-28 sm:pt-36">
         <header className="mb-8 sm:mb-10">
-          <h1 className="font-hero text-5xl font-bold uppercase leading-none tracking-tight text-accent sm:text-7xl">
-            Blogs
+          {/* Brace-framed title in the hero's voice — accent stays on the
+              braces only, matching { saksham } and the chapter headers. */}
+          <h1 className="font-hero text-5xl font-bold uppercase leading-none tracking-tight text-fg sm:text-7xl">
+            <span aria-hidden className="text-accent">
+              {'{'}
+            </span>
+            <span className="px-2 sm:px-4">blogs</span>
+            <span aria-hidden className="text-accent">
+              {'}'}
+            </span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-fg-muted">
             Essays and notes on what I'm building, breaking, and learning.
           </p>
         </header>
 
-        <p className="mb-5 font-mono text-xs uppercase tracking-[0.25em] text-fg-faint">
-          {blogPosts.length} {blogPosts.length === 1 ? 'essay' : 'essays'}
-        </p>
+        {blogPosts.length === 0 ? (
+          /* Empty state — honest and in the site's voice, no placeholder rows. */
+          <Reveal>
+            <div className="border-t border-line py-14 sm:py-16">
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-fg-faint">
+                00 essays — for now
+              </p>
+              <h2 className="mt-5 font-hero text-3xl font-bold tracking-tight text-fg sm:text-4xl">
+                The first one is being written.
+              </h2>
+              <p className="mt-4 max-w-xl leading-relaxed text-fg-muted">
+                Until it lands, the rest of the site tells the story.
+              </p>
+              <a
+                href="/"
+                className="mt-8 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-fg-muted transition-colors hover:text-accent"
+              >
+                Back to the portfolio <span aria-hidden>→</span>
+              </a>
+            </div>
+          </Reveal>
+        ) : (
+          <>
+            <p className="mb-5 font-mono text-xs uppercase tracking-[0.25em] text-fg-faint">
+              {blogPosts.length} {blogPosts.length === 1 ? 'essay' : 'essays'}
+            </p>
 
-        <ul>
-          {blogPosts.map((post, i) => (
-            <Reveal key={post.id} delay={i * 0.05}>
-              <li>
-                <PostRow post={post} />
-              </li>
-            </Reveal>
-          ))}
-        </ul>
+            <ul>
+              {blogPosts.map((post, i) => (
+                <Reveal key={post.id} delay={i * 0.05}>
+                  <li>
+                    <PostRow post={post} />
+                  </li>
+                </Reveal>
+              ))}
+            </ul>
+          </>
+        )}
       </main>
 
       <Footer />
@@ -51,7 +84,7 @@ function PostRow({ post }: { post: BlogPost }) {
   const isLink = post.href !== '#'
 
   const inner = (
-    <div className="-mx-3 grid grid-cols-1 gap-y-2 rounded-lg border-b border-line px-3 py-8 transition-colors duration-300 group-hover:bg-fg/[0.02] sm:grid-cols-[7rem_1fr] sm:gap-x-10 sm:py-10">
+    <div className="-mx-3 grid grid-cols-1 gap-y-2 border-t border-line px-3 py-8 transition-colors duration-300 group-hover:bg-fg/[0.02] sm:grid-cols-[7rem_1fr] sm:gap-x-10 sm:py-10">
       <div className="font-mono text-xs uppercase tracking-[0.15em] text-fg-faint transition-colors group-hover:text-fg-muted sm:pt-1.5">
         {post.date}
       </div>

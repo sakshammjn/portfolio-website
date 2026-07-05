@@ -7,10 +7,17 @@ import { resume, socials } from '@/data/content'
  * Menu entries shown in the slide-in panel.
  *
  * ✏️  Add more here as the site grows (sections, theme toggle…).
+ *     `soon: true` renders the row unclickable with a "coming soon" tag —
+ *     the route itself stays live for anyone who types the URL.
  */
-const menuLinks: Array<{ label: string; href: string; external?: boolean }> = [
+const menuLinks: Array<{
+  label: string
+  href: string
+  external?: boolean
+  soon?: boolean
+}> = [
   { label: 'Home', href: '/' },
-  { label: 'Blogs', href: '/blogs' },
+  { label: 'Blogs', href: '/blogs', soon: true },
 ]
 
 /**
@@ -157,41 +164,65 @@ export function Brand() {
                   visible: { transition: { staggerChildren: 0.07, delayChildren: 0.18 } },
                 }}
               >
-                {menuLinks.map((link, i) => (
-                  <motion.a
-                    key={link.label}
-                    href={link.href}
-                    target={link.external ? '_blank' : undefined}
-                    rel={link.external ? 'noreferrer noopener' : undefined}
-                    onClick={() => setOpen(false)}
-                    variants={
-                      prefersReduced
-                        ? undefined
-                        : {
-                            hidden: { opacity: 0, x: -20 },
-                            visible: {
-                              opacity: 1,
-                              x: 0,
-                              transition: { duration: 0.45, ease: easeOut },
-                            },
-                          }
-                    }
-                    className="group flex items-center gap-4 border-b border-white/10 py-5"
-                  >
-                    <span className="font-mono text-xs text-fg-faint transition-colors group-hover:text-accent">
-                      0{i + 1}
-                    </span>
-                    <span className="font-hero text-3xl font-bold tracking-tight text-fg transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent">
-                      {link.label}
-                    </span>
-                    <span
-                      aria-hidden
-                      className="ml-auto -translate-x-2 text-accent opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                {menuLinks.map((link, i) => {
+                  const itemVariants = prefersReduced
+                    ? undefined
+                    : {
+                        hidden: { opacity: 0, x: -20 },
+                        visible: {
+                          opacity: 1,
+                          x: 0,
+                          transition: { duration: 0.45, ease: easeOut },
+                        },
+                      }
+
+                  // Not live yet — same row, muted, with a small tag where
+                  // the hover arrow would be. No link, no hover theatrics.
+                  if (link.soon) {
+                    return (
+                      <motion.div
+                        key={link.label}
+                        variants={itemVariants}
+                        className="flex items-center gap-4 border-b border-white/10 py-5"
+                      >
+                        <span className="font-mono text-xs text-fg-faint">
+                          0{i + 1}
+                        </span>
+                        <span className="font-hero text-3xl font-bold tracking-tight text-fg-faint">
+                          {link.label}
+                        </span>
+                        <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                          Coming soon
+                        </span>
+                      </motion.div>
+                    )
+                  }
+
+                  return (
+                    <motion.a
+                      key={link.label}
+                      href={link.href}
+                      target={link.external ? '_blank' : undefined}
+                      rel={link.external ? 'noreferrer noopener' : undefined}
+                      onClick={() => setOpen(false)}
+                      variants={itemVariants}
+                      className="group flex items-center gap-4 border-b border-white/10 py-5"
                     >
-                      →
-                    </span>
-                  </motion.a>
-                ))}
+                      <span className="font-mono text-xs text-fg-faint transition-colors group-hover:text-accent">
+                        0{i + 1}
+                      </span>
+                      <span className="font-hero text-3xl font-bold tracking-tight text-fg transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent">
+                        {link.label}
+                      </span>
+                      <span
+                        aria-hidden
+                        className="ml-auto -translate-x-2 text-accent opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                      >
+                        →
+                      </span>
+                    </motion.a>
+                  )
+                })}
               </motion.nav>
 
               {/* Footer — anchors the panel and gives recruiters a way out. */}
