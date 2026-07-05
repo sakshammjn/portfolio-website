@@ -1,146 +1,107 @@
 # Saksham Mahajan — Portfolio
 
-An interactive, timeline-based personal portfolio. Instead of the usual
-stack of hero / skills / projects / contact, the whole site is **one
-continuous journey**: a single timeline spine draws itself as you scroll,
-with each life milestone anchored to it as a glowing node.
+A brutalist-editorial personal portfolio, live at
+**[saksham-mahajan.vercel.app](https://saksham-mahajan.vercel.app/)**.
 
-> **Design concept — "The Long Line."** The timeline is the only persistent
-> visual element. Everything else (editorial serif typography, deep-ink dark
-> theme, a single restrained ember accent, motion that respects
-> `prefers-reduced-motion`) exists to serve that one idea — a story with a
-> spine, not a page of boxes.
+The site reads like a magazine, not a component gallery: numbered chapters
+(`{ 01 } EXPERIENCE` … `{ 06 } EDUCATION`), hairline rules instead of cards,
+one ember-orange accent used sparingly, mono micro-labels, and a dotted-grid
+ink background.
+
+> **Design concept.** Big Clash Display type does the heavy lifting; structure
+> comes from typography and hairlines, not boxes. The accent appears only
+> where it earns its place — the braces, one word per headline, hover states.
+> Everything else stays out of the way.
 
 ## ✨ Features
 
-- **Scroll-linked timeline spine** that fills with the accent colour as you progress.
-- **Alternating editorial layout** on desktop; clean single rail on mobile.
-- **Chapter navigator** — a fixed "metro map" showing your position in the journey.
-- **Subtle, GPU-cheap motion** (transform/opacity only) via Framer Motion.
-- **Dark by default**, premium typography (Fraunces + Inter + JetBrains Mono).
-- **Accessible**: semantic landmarks, skip link, focus-visible rings, reduced-motion support.
-- **SEO-ready**: meta tags, Open Graph, Twitter cards, and JSON-LD `Person` schema.
-- **Fast**: static single-page build, no backend, no heavy 3D.
+- **Editorial chapters** — every section is `{ NN } LABEL` + lede + rows,
+  divided by hairlines. No cards, no pills.
+- **Live elements** — a real-time "time on the job" ticker, and a
+  your-time / my-time line that collapses when the visitor is in IST.
+- **Slide-in frosted-glass menu** behind the `SM.` mark
+  (`mix-blend-difference`, so it survives both halves of the split hero).
+- **Easter eggs** — a console CLI (open DevTools and type `help`), click
+  sparks, a tab-title tease, and a once-per-session loading splash.
+- **Dark by default, light palette included** — theme resolved *before first
+  paint* by an inline script, so there's no flash.
+- **Accessible** — semantic landmarks, keyboard skip link, focus-visible
+  rings, sr-only text for decorative type, and every animation honours
+  `prefers-reduced-motion`.
+- **SEO layer** — Open Graph / Twitter cards, Person JSON-LD with `sameAs`,
+  sitemap, robots, and a crawlable full-name `<h1>`.
+- **Fast and deliberately small** — no router library (two routes, a
+  hand-rolled conditional), no state manager, no backend.
 
 ## 🧱 Tech Stack
 
-| Concern        | Choice                              |
-| -------------- | ----------------------------------- |
-| Framework      | React 19 + TypeScript               |
-| Build tool     | Vite 6                              |
+| Concern        | Choice                               |
+| -------------- | ------------------------------------ |
+| Framework      | React 19 + TypeScript (strict)       |
+| Build tool     | Vite 6                               |
 | Styling        | Tailwind CSS v4 (CSS-first `@theme`) |
-| Animation      | Framer Motion 12                    |
-| Linting/format | ESLint 9 (flat config) + Prettier   |
+| Animation      | Framer Motion 12                     |
+| Linting/format | ESLint 9 (flat config) + Prettier    |
 
-> **Why Vite, not Next.js?** The brief allows Next.js but asks for Vite
-> "unless there is a strong reason." This is fully static content with no SSR,
-> data fetching, or API routes — so Vite gives faster builds, a smaller bundle,
-> and effortless deployment to **both** Vercel and GitHub Pages. If you later
-> add a blog/CMS or server rendering, migrating to Next.js App Router is
-> straightforward since the components are framework-agnostic React.
+There is no `tailwind.config.js` — all design tokens (colours, fonts,
+palettes for both themes) live in [`src/styles/index.css`](src/styles/index.css).
 
 ## 📁 Project Structure
 
 ```
 portfolio-website/
-├── index.html                 # SEO meta, OpenGraph, JSON-LD, font preconnect
-├── public/
-│   └── favicon.svg            # spine + node motif favicon
-├── src/
-│   ├── components/
-│   │   ├── layout/            # Brand wordmark, Footer
-│   │   ├── timeline/          # Timeline spine, TimelineItem, Node, ChapterNav, ScrollProgress
-│   │   ├── sections/          # Hero, Education, Global, Experience, Projects, Achievements, Beyond, Contact
-│   │   └── ui/                # Reveal, GlassCard, Tag, SectionHeading, MilestoneCard, ProjectCard
-│   ├── data/
-│   │   └── content.ts         # ← single source of truth for ALL content
-│   ├── hooks/
-│   │   └── useActiveSection.ts
-│   ├── lib/
-│   │   └── motion.ts          # shared animation presets
-│   ├── styles/
-│   │   └── index.css          # Tailwind import + design tokens (@theme)
-│   ├── App.tsx
-│   └── main.tsx
-├── vite.config.ts
-├── eslint.config.js
-└── tsconfig*.json
+├── index.html                  # SEO meta, OG/Twitter, JSON-LD, theme pre-paint, fonts
+├── vercel.json                 # SPA rewrite so /blogs deep-links resolve
+├── public/                     # favicon, og-image, robots, sitemap, résumé PDF
+└── src/
+    ├── main.tsx                # entry + tiny path router ('/' and '/blogs')
+    ├── App.tsx                 # the portfolio page — chapters in order
+    ├── data/content.ts         # ← single source of truth for ALL content
+    ├── styles/index.css        # design tokens (@theme), dark/light palettes, keyframes
+    ├── lib/                    # shared easing + the console CLI easter egg
+    ├── pages/BlogList.tsx      # /blogs — editorial essay index
+    └── components/
+        ├── layout/             # Brand (menu), Footer
+        ├── sections/           # Hero + chapters 01–06 + Contact
+        ├── ui/                 # Chapter, MilestoneRow, Tag, Reveal, live tickers
+        └── effects/            # FlipText, SkillMarquee, ClickSpark, TabTease, splash
 ```
 
 ## 🚀 Getting Started
 
-Requires **Node 18+** (developed on Node 24).
+Requires **Node 18+**.
 
 ```bash
-# 1. Install dependencies
 npm install
-
-# 2. Start the dev server (http://localhost:5173)
-npm run dev
-
-# 3. Production build
-npm run build
-
-# 4. Preview the production build locally
-npm run preview
+npm run dev        # dev server (http://localhost:5173)
+npm run build      # tsc -b && vite build → dist/
+npm run preview    # serve dist/ locally
+npm run lint       # ESLint
+npm run format     # Prettier write
 ```
 
-Other scripts:
+## ✏️ Editing Content
 
-```bash
-npm run lint      # ESLint
-npm run format    # Prettier write
-```
-
-## ✏️ Editing Your Content
-
-**All content lives in [`src/data/content.ts`](src/data/content.ts).** You do
-not need to touch any component to update the site. Replace every value in
-`[brackets]` (years, company names, repo links, username, email) with your
-real details.
-
-Don't forget to also update:
-
-- `index.html` — the `<title>`, meta descriptions, canonical URL, and the
-  `og:image` URL (drop an `og-image.png`, ~1200×630, into `public/`).
-- The email in `src/data/content.ts` (`contact.email` and the `Email` social).
+**All copy, links, and data live in [`src/data/content.ts`](src/data/content.ts)**
+as typed exports — the components only render it. To change what the site
+says, edit that one file; to change how it looks, edit the section or UI
+component. SEO strings (title, description, JSON-LD) live in `index.html`.
 
 ## ☁️ Deployment
 
-### Option A — Vercel (recommended)
+**Vercel (primary).** Push to `main` and Vercel redeploys automatically.
+`vercel.json` rewrites every path to `/` so deep links resolve.
 
-1. Push this repo to GitHub.
-2. Go to [vercel.com/new](https://vercel.com/new) and import the repository.
-3. Vercel auto-detects Vite — keep the defaults:
-   - **Build command:** `npm run build`
-   - **Output directory:** `dist`
-4. Click **Deploy**. Done. Every push to `main` redeploys automatically.
-
-> `vercel.json` is included so client-side routing/refreshes resolve cleanly.
-
-### Option B — GitHub Pages
-
-GitHub Pages serves from a subpath (`/<repo-name>/`), so build with the
-matching base:
+**GitHub Pages (legacy option).** Pages serves from a subpath, so build with
+the matching base, then publish:
 
 ```bash
 VITE_BASE=/portfolio-website/ npm run build
-npm run deploy        # publishes ./dist to the gh-pages branch
+npm run deploy
 ```
 
-Then in **GitHub → Settings → Pages**, set the source to the `gh-pages`
-branch. Your site will be at `https://<username>.github.io/portfolio-website/`.
-
-(Replace `portfolio-website` with your actual repository name in both the
-`VITE_BASE` value and the URL.)
-
-## ♿ Accessibility & Performance Notes
-
-- Respects `prefers-reduced-motion` — all entrance/loop animations disable.
-- Semantic `<section aria-label>` landmarks and a keyboard skip link.
-- Visible `:focus-visible` rings in the brand accent.
-- Animations are transform/opacity only to stay at 60fps.
-- No render-blocking JS beyond the app bundle; fonts load with `display=swap`.
+Avoid serving both at once — duplicate content splits SEO signal; Vercel is
+canonical.
 
 ## 📄 License
 
