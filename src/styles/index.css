@@ -176,6 +176,46 @@ html.light {
     animation-name: slide-swap-right;
   }
 
+  /* iOS-style progressive glass along the top edge (see Brand.tsx). Three
+     stacked strips of increasing backdrop blur, each masked to dissolve at a
+     different depth — a single masked blur reads as a smudge; the stack reads
+     as glass. Content is fully dissolved behind the SM. mark and sharpens
+     gradually below it. Blur (not a colour gradient) because it must work
+     over both the ink chapters and the inverted paper bands, in both themes. */
+  .top-glass-soft {
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 30%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 100%);
+  }
+  .top-glass-mid {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 30%,
+      transparent 75%
+    );
+    mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 75%);
+  }
+  .top-glass-heavy {
+    -webkit-backdrop-filter: blur(24px) saturate(1.3);
+    backdrop-filter: blur(24px) saturate(1.3);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 40%,
+      transparent 62%
+    );
+    mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 62%);
+  }
+
   /* Thin animated underline used on inline links */
   .link-underline {
     background-image: linear-gradient(var(--color-accent), var(--color-accent));

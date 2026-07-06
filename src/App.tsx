@@ -1,4 +1,5 @@
 import { Brand } from '@/components/layout/Brand'
+import { CommandPalette } from '@/components/layout/CommandPalette'
 import { Footer } from '@/components/layout/Footer'
 import { ClickSpark } from '@/components/effects/ClickSpark'
 import { TabTease } from '@/components/effects/TabTease'
@@ -27,6 +28,7 @@ export default function App() {
       <ClickSpark />
       <TabTease />
       <Brand />
+      <CommandPalette />
 
       <main>
         <Hero />

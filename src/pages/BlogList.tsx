@@ -1,5 +1,6 @@
 import { blogPosts, type BlogPost } from '@/data/content'
 import { Brand } from '@/components/layout/Brand'
+import { CommandPalette } from '@/components/layout/CommandPalette'
 import { Footer } from '@/components/layout/Footer'
 import { ClickSpark } from '@/components/effects/ClickSpark'
 import { TabTease } from '@/components/effects/TabTease'
@@ -16,6 +17,7 @@ export function BlogList() {
       <ClickSpark />
       <TabTease />
       <Brand />
+      <CommandPalette />
 
       <main className="mx-auto min-h-screen max-w-5xl px-6 pb-24 pt-28 sm:pt-36">
         <header className="mb-8 sm:mb-10">

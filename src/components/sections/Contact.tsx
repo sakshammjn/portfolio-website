@@ -1,5 +1,7 @@
+import { Fragment } from 'react'
 import { contact, resume, socials } from '@/data/content'
 import { Reveal } from '@/components/ui/Reveal'
+import { LastShipped } from '@/components/ui/LastShipped'
 import { LocalTime } from '@/components/ui/LocalTime'
 
 /**
@@ -54,18 +56,21 @@ export function Contact() {
                 <span className="h-1.5 w-1.5 rounded-full bg-ink/40 transition-colors group-hover:bg-accent" />
                 {resume.label}
               </a>
-              {/* Email is omitted — the big address above is the email CTA. */}
+              {/* Email is omitted — the big address above is the email CTA.
+                  The live "shipped" line rides beside the GitHub link. */}
               {socials.filter((s) => s.label !== 'Email').map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target={s.href.startsWith('http') ? '_blank' : undefined}
-                  rel="noreferrer noopener"
-                  className="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-ink/60 transition-colors hover:text-accent"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-ink/40 transition-colors group-hover:bg-accent" />
-                  {s.label}
-                </a>
+                <Fragment key={s.label}>
+                  <a
+                    href={s.href}
+                    target={s.href.startsWith('http') ? '_blank' : undefined}
+                    rel="noreferrer noopener"
+                    className="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-ink/60 transition-colors hover:text-accent"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-ink/40 transition-colors group-hover:bg-accent" />
+                    {s.label}
+                  </a>
+                  {s.label === 'GitHub' && <LastShipped />}
+                </Fragment>
               ))}
             </div>
             <LocalTime />

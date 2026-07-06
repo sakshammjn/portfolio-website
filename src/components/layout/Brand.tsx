@@ -53,6 +53,20 @@ export function Brand() {
 
   return (
     <>
+      {/* Progressive glass under the mark — content scrolling past the top
+          edge dissolves into stacked blur layers instead of colliding with
+          the logo. Phone-only (hidden from sm up): on wider screens the
+          content's centred margins keep it clear of the mark. Sits below
+          the logo layers (z-40) and above everything that scrolls. */}
+      <span
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 top-0 z-30 h-28 sm:hidden"
+      >
+        <span className="top-glass-soft absolute inset-0" />
+        <span className="top-glass-mid absolute inset-0" />
+        <span className="top-glass-heavy absolute inset-0" />
+      </span>
+
       {/* ── Icon visual layers (fixed, blended, non-interactive) ────────── */}
 
       {/* "SM" — blended white so it inverts against any background. */}
@@ -161,7 +175,9 @@ export function Brand() {
                 initial={prefersReduced ? undefined : 'hidden'}
                 animate={prefersReduced ? undefined : 'visible'}
                 variants={{
-                  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.18 } },
+                  visible: {
+                    transition: { staggerChildren: 0.07, delayChildren: 0.18 },
+                  },
                 }}
               >
                 {menuLinks.map((link, i) => {
@@ -224,6 +240,15 @@ export function Brand() {
                   )
                 })}
               </motion.nav>
+
+              {/* A quiet pointer at the palette, for keyboard people.
+                  Meaningless on touch screens, so it hides below sm. */}
+              <p className="relative mt-6 hidden font-mono text-[11px] text-fg-faint sm:block">
+                prefer the keyboard?{' '}
+                <span className="border border-white/15 px-1.5 py-0.5 text-fg-muted">
+                  ⌘ K
+                </span>
+              </p>
 
               {/* Footer — anchors the panel and gives recruiters a way out. */}
               <div className="relative mt-auto pt-10">

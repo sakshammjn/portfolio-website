@@ -46,13 +46,6 @@ const content = {
     '',
     '...or just scroll the site, it is all there.',
   ],
-  secret: [
-    'you typed the mystery word. respect, again.',
-    '',
-    'two more, since you are the curious kind:',
-    '  1. click anywhere on the page. anywhere.',
-    '  2. switch tabs and watch the title — it misses you.',
-  ],
 }
 
 // Command name + its one-line description shown in the menu.
@@ -64,8 +57,7 @@ const MENU: Array<[keyof typeof content | 'help', string]> = [
   ['stack', 'tech I work with'],
   ['socials', 'find me online'],
   ['resume', 'grab my CV'],
-  ['projects', 'things I built'],
-  ['secret', '???'],
+  ['projects', 'things I built']
 ]
 
 function printLines(lines: string[]) {
@@ -101,7 +93,6 @@ export function printConsoleGreeting() {
     socials: () => printLines(content.socials),
     resume: () => printLines(content.resume),
     projects: () => printLines(content.projects),
-    secret: () => printLines(content.secret),
   }
 
   // Expose each command as a getter so typing the bare word runs it.

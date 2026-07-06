@@ -7,7 +7,7 @@ export function Footer() {
         <p className="font-mono text-xs text-fg-faint">
           © {new Date().getFullYear()} {profile.name + ' mahajan'}
           <span className="italic opacity-80">
-            {' '}— psst, the console (f12) knows a few tricks.
+            {' '}— psst, the console (f12) knows a few tricks. so does ⌘k.
           </span>
         </p>
       </div>

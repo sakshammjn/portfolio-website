@@ -139,7 +139,7 @@ export const experience: TimelineCard[] = [
   {
     id: 'rkit',
     title: 'Software Engineer',
-    subtitle: 'RKIT Software',
+    subtitle: 'RKIT Software · India',
     period: 'Jan 2026 – Present',
     // Live counter starts at midnight IST, 1 Jan 2026.
     since: '2026-01-01T00:00:00+05:30',
