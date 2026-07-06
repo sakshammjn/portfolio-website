@@ -198,26 +198,6 @@ export function CommandPalette() {
 
   return (
     <>
-      {/* The keycap — a small fixed affordance in the corner so the palette
-          is discoverable, and tappable for anyone without a keyboard. Fades
-          out while the palette is up. */}
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label="Open command palette"
-        aria-keyshortcuts="Meta+K Control+K"
-        className={`fixed bottom-5 right-5 z-[70] border border-white/20 bg-ink/70 px-2.5 py-1.5 font-mono text-xs text-fg-muted shadow-lg shadow-black/20 backdrop-blur-md transition-all duration-300 hover:border-accent/50 hover:text-accent ${
-          open ? 'pointer-events-none opacity-0' : 'opacity-100'
-        }`}
-      >
-        <span className="sm:hidden" aria-hidden>
-          ❯
-        </span>
-        <span className="hidden sm:inline" aria-hidden>
-          ⌘ K
-        </span>
-      </button>
-
       <AnimatePresence>
         {open && (
           <>
