@@ -244,7 +244,7 @@ export function Brand() {
               {/* A quiet pointer at the palette, for keyboard people.
                   Meaningless on touch screens, so it hides below sm. */}
               <p className="relative mt-6 hidden font-mono text-[11px] text-fg-faint sm:block">
-                prefer the keyboard?{' '}
+                prefer the keyboard? try{' '}
                 <span className="border border-white/15 px-1.5 py-0.5 text-fg-muted">
                   ⌘ K
                 </span>
