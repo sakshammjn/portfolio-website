@@ -96,7 +96,7 @@ export function CommandPalette() {
       {
         id: 'blogs',
         label: 'go to blogs',
-        hint: '→',
+        hint: '↗',
         keywords: 'blog essays writing posts notes',
         run: () => {
           window.location.href = '/blogs'
