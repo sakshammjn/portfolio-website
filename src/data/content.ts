@@ -362,7 +362,7 @@ export const resume = {
 }
 
 export const socials: SocialLink[] = [
-  { label: 'GitHub', href: 'https://github.com/sakshammjn', handle: '@sakshammjn' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/sakshammjn', handle: '/in/sakshammjn' },
   { label: 'Email', href: 'mailto:sakshammahajan2004@gmail.com', handle: 'sakshammahajan2004@gmail.com' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/sakshammjn', handle: '/in/sakshammjn' },
+  { label: 'GitHub', href: 'https://github.com/sakshammjn', handle: '@sakshammjn' }, 
 ]
