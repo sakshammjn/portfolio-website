@@ -1,14 +1,37 @@
-import { Fragment } from 'react'
 import { contact, resume, socials } from '@/data/content'
-import { Reveal } from '@/components/ui/Reveal'
 import { LastShipped } from '@/components/ui/LastShipped'
 import { LocalTime } from '@/components/ui/LocalTime'
+import { Reveal } from '@/components/ui/Reveal'
 
 /**
- * The closing band — inverted paper surface with the three-voice headline,
- * the email as the hero CTA, the classic socials row, and a live status strip.
+ * The closing band — inverted paper surface. Opens in the hero's voice
+ * (kicker + three-voice headline), then closes as a compact ledger: every
+ * way to reach Saksham set as ruled editorial rows — mono label column,
+ * the real handle as the value, ember arrow riding right beside it — with
+ * the live clock as the last entry. A colophon, not a footer.
  */
+
+const LABEL =
+  'w-24 shrink-0 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/35'
+const VALUE =
+  'font-mono text-[15px] font-medium uppercase tracking-wide text-ink/80 transition-colors group-hover:text-accent'
+
+/** Diagonal ember arrow for rows that leave the site. */
+function ArrowOut() {
+  return (
+    <span
+      aria-hidden
+      className="shrink-0 font-hero text-lg leading-none text-accent transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+    >
+      ↗
+    </span>
+  )
+}
+
 export function Contact() {
+  const linkedin = socials.find((s) => s.label === 'LinkedIn')
+  const github = socials.find((s) => s.label === 'GitHub')
+
   return (
     <section
       id="contact"
@@ -16,9 +39,17 @@ export function Contact() {
       className="scroll-mt-24 bg-fg px-6 py-12 text-ink sm:py-18"
     >
       <div className="mx-auto max-w-5xl">
-        {/* Headline — three voices of the same sentence. */}
+        {/* Kicker + headline — the band still opens in the hero's voice. */}
+        <Reveal>
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-ink/40">
+            Drop a line — replies within a day
+          </p>
+        </Reveal>
+        {/* Two lines: "LET'S BUILD" / "SOMETHING AMAZING..." — the clamp is
+            capped at 5rem so the second line holds as one on desktop; it
+            wraps gracefully only on very narrow phones. */}
         <Reveal delay={0.05}>
-          <h2 className="text-center font-hero text-[clamp(2.5rem,9vw,6.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+          <h2 className="mt-5 font-hero text-[clamp(2rem,7vw,5rem)] font-bold uppercase leading-[0.95] tracking-tight">
             Let's build
             <br />
             <span className="text-transparent [-webkit-text-stroke:2px_var(--color-ink)]">
@@ -28,54 +59,87 @@ export function Contact() {
           </h2>
         </Reveal>
 
-        {/* Email CTA */}
-        <Reveal delay={0.1}>
-          <div className="mt-12 text-center">
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-ink/40">
-              Drop a line — replies within a day
-            </p>
+        {/* ── The ledger — arrows ride beside the values, rows stay tight. ── */}
+        <div className="mt-10">
+          {/* Email — the hero row, whole row clickable. */}
+          <Reveal delay={0.1}>
             <a
               href={`mailto:${contact.email}`}
-              className="mt-4 inline-block max-w-full break-all border-b-4 border-accent pb-2 font-hero text-[clamp(1.15rem,3.2vw,2.25rem)] font-bold leading-tight text-ink transition-colors hover:text-accent"
+              className="group flex flex-col gap-1 border-t border-ink/15 py-5 sm:flex-row sm:items-baseline sm:gap-8"
             >
-              {contact.email}
+              <span className={LABEL}>Email</span>
+              <span className="flex min-w-0 items-center gap-4">
+                <span className="min-w-0 break-all font-hero text-[clamp(1.3rem,3vw,2.5rem)] font-bold leading-tight tracking-tight transition-colors group-hover:text-accent">
+                  {contact.email}
+                </span>
+                <span
+                  aria-hidden
+                  className="hidden shrink-0 font-hero text-2xl leading-none text-accent transition-transform duration-300 group-hover:translate-x-2 sm:block"
+                >
+                  →
+                </span>
+              </span>
             </a>
-          </div>
-        </Reveal>
+          </Reveal>
 
-        {/* Socials — the classic dot-row, with the live time line beneath. */}
-        <Reveal delay={0.15}>
-          <div className="mt-10 flex flex-col items-center gap-6">
-            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-              <a
-                href={resume.href}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-ink/60 transition-colors hover:text-accent"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-ink/40 transition-colors group-hover:bg-accent" />
-                {resume.label}
-              </a>
-              {/* Email is omitted — the big address above is the email CTA.
-                  The live "shipped" line rides beside the GitHub link. */}
-              {socials.filter((s) => s.label !== 'Email').map((s) => (
-                <Fragment key={s.label}>
-                  <a
-                    href={s.href}
-                    target={s.href.startsWith('http') ? '_blank' : undefined}
-                    rel="noreferrer noopener"
-                    className="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-ink/60 transition-colors hover:text-accent"
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-ink/40 transition-colors group-hover:bg-accent" />
-                    {s.label}
-                  </a>
-                  {s.label === 'GitHub' && <LastShipped />}
-                </Fragment>
-              ))}
+          <Reveal delay={0.14}>
+            <a
+              href={resume.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="group flex flex-col gap-1 border-t border-ink/15 py-3 sm:flex-row sm:items-baseline sm:gap-8"
+            >
+              <span className={LABEL}>Résumé</span>
+              <span className="flex items-center gap-3">
+                <span className={VALUE}>one page, no fluff — pdf</span>
+                <ArrowOut />
+              </span>
+            </a>
+          </Reveal>
+
+          <Reveal delay={0.18}>
+            <a
+              href={linkedin?.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="group flex flex-col gap-1 border-t border-ink/15 py-3 sm:flex-row sm:items-baseline sm:gap-8"
+            >
+              <span className={LABEL}>LinkedIn</span>
+              <span className="flex items-center gap-3">
+                <span className={VALUE}>{linkedin?.handle}</span>
+                <ArrowOut />
+              </span>
+            </a>
+          </Reveal>
+
+          {/* GitHub — a div, not a link: the handle and the live "shipped"
+              receipt are two separate anchors (nested <a> is illegal). */}
+          <Reveal delay={0.22}>
+            <div className="group flex flex-col gap-1 border-t border-ink/15 py-3 sm:flex-row sm:items-baseline sm:gap-8">
+              <span className={LABEL}>GitHub</span>
+              <span className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+                <a
+                  href={github?.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className={VALUE}
+                >
+                  {github?.handle}
+                </a>
+                <LastShipped />
+                <ArrowOut />
+              </span>
             </div>
-            <LocalTime />
-          </div>
-        </Reveal>
+          </Reveal>
+
+          {/* Local time — the ledger's closing entry; live, not a link. */}
+          <Reveal delay={0.26}>
+            <div className="flex flex-col gap-1 border-y border-ink/15 py-3 sm:flex-row sm:items-baseline sm:gap-8">
+              <span className={LABEL}>Local time</span>
+              <LocalTime />
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   )

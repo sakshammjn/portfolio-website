@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { easeOut } from '@/lib/motion'
+import { relative, useLastShipped } from '@/lib/useLastShipped'
 import { resume, socials } from '@/data/content'
 
 /**
@@ -32,6 +33,7 @@ export function Brand() {
   const [open, setOpen] = useState(false)
   const [hovered, setHovered] = useState(false)
   const prefersReduced = useReducedMotion()
+  const shipped = useLastShipped()
 
   // Close on Escape and lock body scroll while the panel is open.
   useEffect(() => {
@@ -265,15 +267,29 @@ export function Brand() {
                     {resume.label}
                   </a>
                   {socials.map((s) => (
-                    <a
-                      key={s.label}
-                      href={s.href}
-                      target={s.href.startsWith('http') ? '_blank' : undefined}
-                      rel="noreferrer noopener"
-                      className="w-fit font-mono text-sm text-fg-muted transition-colors hover:text-accent"
-                    >
-                      {s.label}
-                    </a>
+                    <span key={s.label} className="flex items-baseline gap-x-2">
+                      <a
+                        href={s.href}
+                        target={s.href.startsWith('http') ? '_blank' : undefined}
+                        rel="noreferrer noopener"
+                        className="w-fit font-mono text-sm text-fg-muted transition-colors hover:text-accent"
+                      >
+                        {s.label}
+                      </a>
+                      {/* Live receipt riding the GitHub link — when the last
+                          public push landed. Links to the repo it landed in
+                          without naming it. */}
+                      {s.label === 'GitHub' && shipped && (
+                        <a
+                          href={shipped.url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="whitespace-nowrap font-mono text-xs text-fg-faint transition-colors hover:text-accent"
+                        >
+                          / last shipped {relative(shipped.at)}
+                        </a>
+                      )}
+                    </span>
                   ))}
                 </div>
               </div>

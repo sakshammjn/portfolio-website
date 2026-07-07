@@ -51,28 +51,40 @@ export function SkillMarquee({
   const scrollVelocity = useVelocity(scrollY)
   const smoothVelocity = useSpring(scrollVelocity, {
     damping: 50,
-    stiffness: 400,
+    stiffness: 250,
   })
-  // Map scroll speed to a multiplier; unclamped so fast flicks really move it.
-  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
-    clamp: false,
-  })
+  // Map scroll speed to a multiplier, clamped so hard flicks can't lurch the
+  // track — ±5× the idle drift is the ceiling.
+  const velocityFactor = useTransform(smoothVelocity, [-1000, 1000], [-5, 5])
 
   // baseX walks freely; wrap() folds it into one row's width as a %.
   const x = useTransform(baseX, (v) => `${wrap(-50, 0, v)}%`)
 
-  const directionFactor = useRef<number>(baseDirection)
+  /** Seconds for the track's velocity to relax toward its target — the
+   *  "mass" of the flywheel. Reversals sweep through zero over ~this long. */
+  const DRIFT_TAU = 0.5
+
+  const dirRef = useRef<number>(baseDirection)
+  const speedRef = useRef<number>(baseDirection * BASE_VELOCITY)
   useAnimationFrame((_t, delta) => {
     if (prefersReduced) return
-    let moveBy = directionFactor.current * BASE_VELOCITY * (delta / 1000)
+    const dt = delta / 1000
+    const vf = velocityFactor.get()
 
-    // Scroll direction wins: down (positive) → right, up (negative) → left.
-    if (velocityFactor.get() < 0) directionFactor.current = 1
-    else if (velocityFactor.get() > 0) directionFactor.current = -1
+    // Remember the last scroll direction. The idle drift keeps flowing the
+    // same way, so releasing the scroll never reverses the band — it just
+    // decays back to cruise speed. Direction only changes when the visitor's
+    // scroll direction does.
+    if (vf > 0.1) dirRef.current = 1
+    else if (vf < -0.1) dirRef.current = -1
 
-    // Scroll speed adds on top of the idle drift.
-    moveBy += directionFactor.current * moveBy * velocityFactor.get()
-    baseX.set(baseX.get() + moveBy)
+    // One continuous velocity easing toward its target: idle drift in the
+    // remembered direction, boosted by scroll speed. A reversal is just the
+    // target flipping sign — the actual velocity glides through zero.
+    const target = (dirRef.current + vf) * BASE_VELOCITY
+    speedRef.current +=
+      (target - speedRef.current) * (1 - Math.exp(-dt / DRIFT_TAU))
+    baseX.set(baseX.get() + speedRef.current * dt)
   })
 
   const Row = ({ ariaHidden = false }: { ariaHidden?: boolean }) => (

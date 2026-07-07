@@ -29,7 +29,7 @@ export function LocalTime() {
   const sameZone = now.getTimezoneOffset() === -IST_OFFSET_MIN
 
   return (
-    <p className="font-mono text-xs uppercase tracking-[0.15em] text-ink/40">
+    <p className="font-mono text-[13px] uppercase tracking-[0.15em] text-ink/45">
       {sameZone ? (
         <>
           <span className="text-ink/70">{mine}</span> for both of us
