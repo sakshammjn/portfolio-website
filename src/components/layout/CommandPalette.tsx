@@ -34,11 +34,36 @@ interface Command {
   run: () => void | 'keep-open'
 }
 
+type Theme = 'light' | 'dark'
+
+/** Flip the palette: swap the <html> class, persist it, retint the chrome.
+ *  Mirrors the pre-paint script in index.html (localStorage key 'theme'). */
+function applyTheme(next: Theme) {
+  const el = document.documentElement
+  el.classList.remove('light', 'dark')
+  el.classList.add(next)
+  try {
+    localStorage.setItem('theme', next)
+  } catch {
+    /* private mode — the class still applies for this session */
+  }
+  document
+    .querySelector('meta[name="theme-color"]')
+    ?.setAttribute('content', next === 'light' ? '#FAF9F5' : '#0A0A0B')
+}
+
+const currentTheme = (): Theme =>
+  typeof document !== 'undefined' &&
+  document.documentElement.classList.contains('light')
+    ? 'light'
+    : 'dark'
+
 export function CommandPalette() {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState(0)
   const [copied, setCopied] = useState(false)
+  const [theme, setTheme] = useState<Theme>(currentTheme)
   const inputRef = useRef<HTMLInputElement>(null)
   const returnFocusRef = useRef<HTMLElement | null>(null)
   const prefersReduced = useReducedMotion()
@@ -86,6 +111,17 @@ export function CommandPalette() {
           window.open(resume.href, '_blank', 'noopener')
         },
       },
+      {
+        id: 'theme',
+        label: theme === 'light' ? 'switch to dark' : 'switch to light',
+        hint: theme === 'light' ? 'dark' : 'light',
+        keywords: 'theme mode appearance colour color toggle dark light',
+        run: () => {
+          const next: Theme = theme === 'light' ? 'dark' : 'light'
+          applyTheme(next)
+          setTheme(next)
+        },
+      },
       ...chapters.map((c) => ({
         id: c.id,
         label: `go to ${c.label.toLowerCase()}`,
@@ -129,7 +165,7 @@ export function CommandPalette() {
           ]
         : []),
     ]
-  }, [])
+  }, [theme])
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -157,6 +193,7 @@ export function CommandPalette() {
     setQuery('')
     setSelected(0)
     setCopied(false)
+    setTheme(currentTheme()) // sync in case the OS/theme changed since last open
     returnFocusRef.current = document.activeElement as HTMLElement | null
     inputRef.current?.focus()
     const prevOverflow = document.body.style.overflow

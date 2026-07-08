@@ -84,19 +84,22 @@ export function Contact() {
   const github = socials.find((s) => s.label === 'GitHub')
 
   // The statement's words counter-slide into alignment (alternating sides),
-  // scrubbed 1:1 by scroll as the statement crosses into the viewport — the
-  // window is keyed to the statement's own top so it completes on every
-  // screen height (a section-bottom key stranded it half-done on tall mobile
-  // layouts where the footer sits below the grid).
+  // scrubbed 1:1 by scroll as the statement rises through the viewport. The
+  // window runs from the top entering low (start 0.9) until the block is
+  // nearly centred (center 0.58) — a long, late window so the motion tracks
+  // the scroll into the reading zone instead of finishing early. Both edges
+  // are reachable at max scroll on every height (measured: desktop centre
+  // bottoms out at ~0.52, so 0.58 completes just before the page end; a
+  // section-bottom / `end end` key had stranded it half-done on tall mobile).
   const headRef = useRef<HTMLHeadingElement>(null)
   const prefersReduced = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: headRef,
-    offset: ['start 0.95', 'start 0.45'],
+    offset: ['start 0.9', 'center 0.58'],
   })
   const xLeft = useTransform(scrollYProgress, [0, 1], [-60, 0])
   const xRight = useTransform(scrollYProgress, [0, 1], [60, 0])
-  const headOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1])
+  const headOpacity = useTransform(scrollYProgress, [0, 0.6], [0, 1])
   const line = (x: typeof xLeft) =>
     prefersReduced ? undefined : { x, opacity: headOpacity }
 
@@ -132,7 +135,7 @@ export function Contact() {
             With
           </motion.span>
           <motion.span className="mt-3 block" style={line(xLeft)}>
-            <span className="inline-block -rotate-2 font-scrawl text-[0.72em] normal-case tracking-normal text-accent">
+            <span className="inline-block font-scrawl text-[0.72em] normal-case tracking-normal text-accent">
               a hello...
             </span>
           </motion.span>
