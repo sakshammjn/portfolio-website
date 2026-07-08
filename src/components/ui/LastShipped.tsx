@@ -5,7 +5,6 @@ import { relative, useLastShipped } from '@/lib/useLastShipped'
  * dot-row — quiet proof the shipping never stopped. Time only; the link
  * quietly points at the repo it landed in without naming it.
  *
- * Lives inside the inverted paper band, so it uses the ink tokens (not fg).
  * Renders nothing until the data is in, and stays gone on any failure —
  * the row must never show a broken state.
  */
@@ -19,7 +18,7 @@ export function LastShipped() {
       href={shipped.url}
       target="_blank"
       rel="noreferrer noopener"
-      className="inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-ink/50 transition-colors hover:text-accent"
+      className="inline-flex items-center gap-2 font-mono text-[15px] uppercase tracking-wide text-fg-faint transition-colors hover:text-accent"
     >
       {/* Accent slash — ties the suffix to the GitHub link it follows. */}
       <span aria-hidden className="text-accent">/</span>

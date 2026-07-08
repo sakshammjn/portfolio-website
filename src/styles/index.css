@@ -29,6 +29,8 @@
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   /* Heavy geometric "techy" face for the hero name / marquee. */
   --font-hero: 'Clash Display', 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  /* Hand-scrawled marker for the one doodled word in the contact headline. */
+  --font-scrawl: 'Permanent Marker', 'Comic Sans MS', cursive;
 
   /* Layout rhythm */
   --spacing-chapter: 11rem;

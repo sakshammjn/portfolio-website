@@ -30,7 +30,7 @@ export function Chapter({ id, index, label, lede, children }: ChapterProps) {
 
   const { scrollYProgress } = useScroll({
     target: headerRef,
-    offset: ['start 0.95', 'start 0.55'],
+    offset: ['start 0.98', 'start 0.45'],
   })
   const braceL = useTransform(scrollYProgress, [0, 1], [-18, 0])
   const braceR = useTransform(scrollYProgress, [0, 1], [18, 0])

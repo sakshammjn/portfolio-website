@@ -167,6 +167,17 @@ export function CommandPalette() {
     }
   }, [open])
 
+  // Keep the highlighted row in view as the selection moves by keyboard —
+  // otherwise arrowing past the fold hides it under the scroll container.
+  useEffect(() => {
+    if (!open) return
+    const id = results[selected]?.id
+    if (!id) return
+    document
+      .getElementById(`palette-${id}`)
+      ?.scrollIntoView({ block: 'nearest' })
+  }, [selected, open, results])
+
   const runCommand = (cmd: Command) => {
     if (cmd.run() === 'keep-open') {
       // Copy feedback: swap the row's label for a beat, then dissolve.
@@ -202,7 +213,7 @@ export function CommandPalette() {
         {open && (
           <>
             <motion.div
-              className="fixed inset-0 z-[80] bg-ink/40 backdrop-blur-sm"
+              className="fixed inset-0 z-[80] bg-ink/60 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

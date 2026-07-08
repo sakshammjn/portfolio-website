@@ -9,6 +9,12 @@ interface RevealProps {
   delay?: number
   /** Vertical travel distance in px. */
   y?: number
+  /** Viewport fraction (of height, from the top) where the scrub completes.
+   *  Default 0.7 = the block finishes arriving at 70% viewport height.
+   *  Blocks near the page bottom need a larger value (e.g. 0.88) — they can
+   *  never reach the upper viewport, so a long window would strand them
+   *  half-faded at max scroll. */
+  until?: number
   className?: string
   as?: 'div' | 'li' | 'span'
 }
@@ -19,18 +25,25 @@ interface RevealProps {
  * slowly and it arrives slowly; scroll back and it retreats — no timers,
  * no one-shot triggers, the visitor's hand drives every frame.
  *
- * The window ends at 85% of the viewport so content is always fully solid
- * by reading height, and anything above the fold on load starts complete.
+ * The scrub spans from the viewport's bottom edge up to `until` (default
+ * 70% of the viewport height), so the arrival is long enough to actually
+ * watch; anything above the fold on load starts complete.
  * Fully disabled (renders statically) when the user prefers reduced motion.
  */
-export function Reveal({ children, y = 24, className, as = 'div' }: RevealProps) {
+export function Reveal({
+  children,
+  y = 24,
+  until = 0.7,
+  className,
+  as = 'div',
+}: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const prefersReduced = useReducedMotion()
   const MotionTag = motion[as] as typeof motion.div
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start 1', 'start 0.85'],
+    offset: ['start 1', `start ${until}`],
   })
   const yValue = useTransform(scrollYProgress, [0, 1], [y, 0])
 

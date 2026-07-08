@@ -29,19 +29,19 @@ export function LocalTime() {
   const sameZone = now.getTimezoneOffset() === -IST_OFFSET_MIN
 
   return (
-    <p className="font-mono text-[13px] uppercase tracking-[0.15em] text-ink/45">
+    <p className="font-mono text-[13px] uppercase tracking-[0.15em] text-fg-faint">
       {sameZone ? (
         <>
-          <span className="text-ink/70">{mine}</span> for both of us
+          <span className="font-medium text-fg">{mine}</span> for both of us
         </>
       ) : (
         <>
-          <span className="text-ink/70">{fmt(now)}</span> your time
+          <span className="font-medium text-fg">{fmt(now)}</span> your time
           <span className="px-2 text-accent">·</span>
-          <span className="text-ink/70">{mine}</span> mine
+          <span className="font-medium text-fg">{mine}</span> mine
         </>
       )}
-      <span className="text-ink/30">
+      <span className="text-fg-faint">
         {' '}— {profile.location}, {profile.utcLabel}
       </span>
     </p>
