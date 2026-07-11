@@ -266,3 +266,53 @@ html.light {
     animation: none;
   }
 }
+
+/* ------------------------------------------------------------------ *
+ * Theme switch — diagonal wipe reveal.
+ * The View Transitions API (driven from CommandPalette's applyTheme)
+ * captures the outgoing palette and the incoming one as two stacked
+ * snapshots. We freeze the old one solid underneath and sweep the new
+ * one across it with a hard, slightly-slanted edge — brutalist, no
+ * feather — led by a thin ember hairline. Light-in sweeps left→right;
+ * dark-in reverses right→left, so the pair reads as one reversible move.
+ * ------------------------------------------------------------------ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  /* Kill the UA cross-fade; we drive the reveal ourselves. */
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 0; /* stays fully opaque beneath the incoming wipe */
+}
+::view-transition-new(root) {
+  z-index: 1;
+  animation: theme-wipe-in 0.55s cubic-bezier(0.83, 0, 0.17, 1) forwards;
+  /* Ember hairline riding the leading (right) edge of the wipe. */
+  filter: drop-shadow(3px 0 0 var(--color-accent));
+}
+
+/* Switching to dark: sweep the other way, ember edge on the left. */
+html[data-theme-switch='dark']::view-transition-new(root) {
+  animation-name: theme-wipe-in-rev;
+  filter: drop-shadow(-3px 0 0 var(--color-accent));
+}
+
+/* Left → right: a near-vertical edge, leaning so the top leads the bottom. */
+@keyframes theme-wipe-in {
+  from {
+    clip-path: polygon(0 0, 0 0, -25% 100%, -25% 100%);
+  }
+  to {
+    clip-path: polygon(0 0, 125% 0, 100% 100%, 0 100%);
+  }
+}
+/* Right → left mirror. */
+@keyframes theme-wipe-in-rev {
+  from {
+    clip-path: polygon(100% 0, 100% 0, 125% 100%, 125% 100%);
+  }
+  to {
+    clip-path: polygon(-25% 0, 100% 0, 100% 100%, 0 100%);
+  }
+}

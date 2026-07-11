@@ -4,6 +4,9 @@ import { Footer } from '@/components/layout/Footer'
 import { ClickSpark } from '@/components/effects/ClickSpark'
 import { TabTease } from '@/components/effects/TabTease'
 import { LoadingSplash } from '@/components/effects/LoadingSplash'
+import { CritterParade } from '@/components/effects/CritterParade'
+import { ThemeWipeChaser } from '@/components/effects/ThemeWipeChaser'
+import { PeekABoo } from '@/components/effects/PeekABoo'
 import { Hero } from '@/components/sections/Hero'
 import { Experience } from '@/components/sections/Experience'
 import { OpenSource } from '@/components/sections/OpenSource'
@@ -29,6 +32,9 @@ export default function App() {
       <TabTease />
       <Brand />
       <CommandPalette />
+      <CritterParade />
+      <ThemeWipeChaser />
+      <PeekABoo />
 
       <main>
         <Hero />

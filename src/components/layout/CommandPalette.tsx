@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { easeOut } from '@/lib/motion'
 import { contact, resume, socials } from '@/data/content'
+import { SEASONAL_DAYS } from '@/lib/seasonal'
+import { Critter } from '@/components/effects/Critter'
 
 /**
  * ⌘K command palette — the console easter egg, surfaced on the page.
@@ -30,15 +32,21 @@ interface Command {
   hint: string
   /** Extra match terms beyond the label. */
   keywords: string
-  /** Return 'keep-open' to show feedback instead of closing (e.g. copy). */
-  run: () => void | 'keep-open'
+  /** Return 'keep-open' to show copy feedback, 'submenu' to stay open after
+   *  switching the palette into another view; void closes. */
+  run: () => void | 'keep-open' | 'submenu'
 }
+
+/** Which list the palette is showing: commands, or the critter's calendar. */
+type View = 'commands' | 'days'
+
+const MONTHS = 'jan feb mar apr may jun jul aug sep oct nov dec'.split(' ')
 
 type Theme = 'light' | 'dark'
 
 /** Flip the palette: swap the <html> class, persist it, retint the chrome.
  *  Mirrors the pre-paint script in index.html (localStorage key 'theme'). */
-function applyTheme(next: Theme) {
+function commitTheme(next: Theme) {
   const el = document.documentElement
   el.classList.remove('light', 'dark')
   el.classList.add(next)
@@ -52,6 +60,36 @@ function applyTheme(next: Theme) {
     ?.setAttribute('content', next === 'light' ? '#FAF9F5' : '#0A0A0B')
 }
 
+type ViewTransitionDoc = Document & {
+  startViewTransition?: (cb: () => void) => { finished: Promise<void> }
+}
+
+/** Flip the theme with a diagonal wipe. The View Transitions API captures the
+ *  outgoing and incoming palettes so the new one can sweep in over the old
+ *  (see the ::view-transition rules in index.css). Falls back to an instant
+ *  swap where the API is missing or the visitor prefers reduced motion. */
+function applyTheme(next: Theme) {
+  const doc = document as ViewTransitionDoc
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (reduced || !doc.startViewTransition) {
+    commitTheme(next)
+    return
+  }
+  // Tags <html> so the CSS can orient the wipe (light in vs dark in).
+  doc.documentElement.dataset.themeSwitch = next
+  const transition = doc.startViewTransition(() => commitTheme(next))
+  // Send the critter sprinting in with the new palette once the wipe is
+  // painted (the view-transition layer sits on top mid-wipe, so the chaser
+  // rides the fresh theme rather than fighting the overlay). See ThemeWipeChaser.
+  transition.finished
+    .then(() => {
+      window.dispatchEvent(new CustomEvent('theme-wipe', { detail: { to: next } }))
+    })
+    .finally(() => {
+      delete doc.documentElement.dataset.themeSwitch
+    })
+}
+
 const currentTheme = (): Theme =>
   typeof document !== 'undefined' &&
   document.documentElement.classList.contains('light')
@@ -60,6 +98,7 @@ const currentTheme = (): Theme =>
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false)
+  const [view, setView] = useState<View>('commands')
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState(0)
   const [copied, setCopied] = useState(false)
@@ -71,6 +110,22 @@ export function CommandPalette() {
   const close = () => setOpen(false)
 
   const commands = useMemo<Command[]>(() => {
+    // The critter's calendar — picking a day dresses the footer walker in
+    // that day's outfit (FooterWalker listens for `critter-dress`).
+    if (view === 'days') {
+      return SEASONAL_DAYS.map((d) => ({
+        id: `day-${d.slug}`,
+        label: d.label,
+        hint: `${MONTHS[d.month - 1]} ${d.day}`,
+        keywords: `${d.slug.replace(/-/g, ' ')} ${MONTHS[d.month - 1]}`,
+        run: () => {
+          window.dispatchEvent(
+            new CustomEvent('critter-dress', { detail: { slug: d.slug } }),
+          )
+        },
+      }))
+    }
+
     const jump = (id: string) => {
       // On /blogs the sections don't exist — go home with the anchor.
       if (window.location.pathname.replace(/\/+$/, '') !== '') {
@@ -122,6 +177,27 @@ export function CommandPalette() {
           setTheme(next)
         },
       },
+      {
+        id: 'pet',
+        label: 'release the critters',
+        hint: '✦',
+        keywords: 'pet mascot critter parade egg fun',
+        run: () => {
+          window.dispatchEvent(new CustomEvent('critter-parade'))
+        },
+      },
+      {
+        id: 'calendar',
+        label: 'critter calendar',
+        hint: '›',
+        keywords: 'show me days seasonal holidays special outfits dress mascot',
+        run: () => {
+          setView('days')
+          setQuery('')
+          setSelected(0)
+          return 'submenu'
+        },
+      },
       ...chapters.map((c) => ({
         id: c.id,
         label: `go to ${c.label.toLowerCase()}`,
@@ -165,7 +241,7 @@ export function CommandPalette() {
           ]
         : []),
     ]
-  }, [theme])
+  }, [theme, view])
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -190,6 +266,7 @@ export function CommandPalette() {
   // Reset, focus the prompt, lock scroll, and remember where focus came from.
   useEffect(() => {
     if (!open) return
+    setView('commands')
     setQuery('')
     setSelected(0)
     setCopied(false)
@@ -216,11 +293,12 @@ export function CommandPalette() {
   }, [selected, open, results])
 
   const runCommand = (cmd: Command) => {
-    if (cmd.run() === 'keep-open') {
+    const outcome = cmd.run()
+    if (outcome === 'keep-open') {
       // Copy feedback: swap the row's label for a beat, then dissolve.
       setCopied(true)
       setTimeout(close, 900)
-    } else {
+    } else if (outcome !== 'submenu') {
       close()
     }
   }
@@ -228,7 +306,14 @@ export function CommandPalette() {
   const onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
       e.preventDefault()
-      close()
+      // From the calendar, Escape steps back to the commands first.
+      if (view === 'days') {
+        setView('commands')
+        setQuery('')
+        setSelected(0)
+      } else {
+        close()
+      }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault()
       setSelected((s) => Math.min(s + 1, results.length - 1))
@@ -284,7 +369,9 @@ export function CommandPalette() {
                       setSelected(0)
                     }}
                     onKeyDown={onInputKeyDown}
-                    placeholder="type a command…"
+                    placeholder={
+                      view === 'days' ? 'search the days…' : 'type a command…'
+                    }
                     aria-label="Search commands"
                     role="combobox"
                     aria-expanded="true"
@@ -307,7 +394,9 @@ export function CommandPalette() {
                 >
                   {results.length === 0 && (
                     <li className="px-4 py-6 font-mono text-sm text-fg-faint">
-                      nothing matches — try 'hire'.
+                      {view === 'days'
+                        ? "no such day — try 'bee'."
+                        : "nothing matches — try 'hire'."}
                     </li>
                   )}
                   {results.map((cmd, i) => {
@@ -323,7 +412,7 @@ export function CommandPalette() {
                         onClick={() => runCommand(cmd)}
                         className={`flex cursor-pointer items-baseline justify-between gap-6 px-4 py-2.5 font-mono text-[13px] transition-colors ${
                           isSelected
-                            ? 'bg-white/[0.07] text-fg'
+                            ? 'bg-fg/[0.08] text-fg'
                             : 'text-fg-muted'
                         }`}
                       >
@@ -340,14 +429,33 @@ export function CommandPalette() {
                   })}
                 </ul>
 
-                {/* Hint bar */}
+                {/* Hint bar — with the palette pet keeping an eye on the list.
+                    Its pupils follow the highlighted row; an empty result set
+                    gets a baffled squint-and-tilt. */}
                 <div
                   aria-hidden
-                  className="flex gap-5 border-t border-white/10 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-fg-faint"
+                  className="flex items-center justify-between border-t border-white/10 px-4 py-2"
                 >
-                  <span>↑↓ move</span>
-                  <span>↵ run</span>
-                  <span>esc close</span>
+                  <div className="flex gap-5 font-mono text-[10px] uppercase tracking-wider text-fg-faint">
+                    <span>↑↓ move</span>
+                    <span>↵ {view === 'days' ? 'dress it' : 'run'}</span>
+                    <span>esc {view === 'days' ? 'back' : 'close'}</span>
+                  </div>
+                  <Critter
+                    size={22}
+                    blink
+                    eyes={results.length === 0 ? 'squint' : 'open'}
+                    look={{
+                      x: -1.5,
+                      y:
+                        results.length > 1
+                          ? (selected / (results.length - 1)) * 3 - 1.5
+                          : 0,
+                    }}
+                    className={`transition-transform duration-300 ${
+                      results.length === 0 ? '-rotate-12' : ''
+                    }`}
+                  />
                 </div>
               </motion.div>
             </div>

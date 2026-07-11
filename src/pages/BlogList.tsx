@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { blogPosts, type BlogPost } from '@/data/content'
 import { Brand } from '@/components/layout/Brand'
 import { CommandPalette } from '@/components/layout/CommandPalette'
 import { Footer } from '@/components/layout/Footer'
 import { ClickSpark } from '@/components/effects/ClickSpark'
 import { TabTease } from '@/components/effects/TabTease'
+import { Critter, Sign } from '@/components/effects/Critter'
+import { CritterParade } from '@/components/effects/CritterParade'
 import { Reveal } from '@/components/ui/Reveal'
 
 /**
@@ -18,6 +21,7 @@ export function BlogList() {
       <TabTease />
       <Brand />
       <CommandPalette />
+      <CritterParade />
 
       <main className="mx-auto min-h-screen max-w-5xl px-6 pb-24 pt-28 sm:pt-36">
         <header className="mb-8 sm:mb-10">
@@ -50,6 +54,7 @@ export function BlogList() {
               <p className="mt-4 max-w-xl leading-relaxed text-fg-muted">
                 Until it lands, the rest of the site tells the story.
               </p>
+              <SoonCritter />
               <a
                 href="/"
                 className="mt-8 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-fg-muted transition-colors hover:text-accent"
@@ -79,6 +84,25 @@ export function BlogList() {
 
       <Footer />
     </>
+  )
+}
+
+/** The critter minding the empty shelf, sign up. Click = brief > < squint. */
+function SoonCritter() {
+  const [squint, setSquint] = useState(false)
+  return (
+    <button
+      type="button"
+      aria-label="The pixel critter, holding a soon sign"
+      onClick={() => {
+        setSquint(true)
+        window.setTimeout(() => setSquint(false), 650)
+      }}
+      className="mt-10 flex cursor-pointer select-none flex-col items-center gap-0"
+    >
+      <Sign>soon</Sign>
+      <Critter size={40} gaze blink eyes={squint ? 'squint' : 'open'} />
+    </button>
   )
 }
 

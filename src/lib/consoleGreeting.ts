@@ -22,8 +22,8 @@ const content = {
     `email: ${contact.email}`,
   ],
   about: [
-    'Saksham Mahajan — software engineer @ RKIT Software.',
-    'I build .NET backend services for a product with 100,000+ users,',
+    'Saksham Mahajan — a software engineer',
+    'I build services for a product with 100,000+ users,',
     'and fix JSON Schema tooling in open source after hours.',
   ],
   contact: [

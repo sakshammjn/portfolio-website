@@ -112,7 +112,7 @@ export const education: TimelineCard[] = [
 ]
 
 export const educationHighlight = {
-  metric: '9.50',
+  metric: '9.49',
   metricLabel: 'CGPA / 10',
   caption: 'Four years. No dips.',
 }
