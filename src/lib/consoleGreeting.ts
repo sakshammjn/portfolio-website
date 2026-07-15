@@ -11,6 +11,7 @@
  * the console-exclusive lines (about, stack, secret…) live here.
  */
 import { contact, profile, projects, resume, socials } from '@/data/content'
+import { isLateNight } from '@/lib/seasonal'
 
 // Full origin so the résumé line prints as a clickable URL — and stays
 // correct after the custom-domain swap.
@@ -69,7 +70,9 @@ function printMenu() {
   const rows = MENU.map(([cmd, desc]) => `  ${cmd.padEnd(width)}  —  ${desc}`)
   console.log(
     [
-      'heyyy you opened the console. respect.',
+      isLateNight()
+        ? "up this late, in the console? we'd get along."
+        : 'heyyy you opened the console. respect.',
       'type one of these and hit enter:',
       '',
       ...rows,

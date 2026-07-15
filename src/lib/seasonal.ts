@@ -124,6 +124,13 @@ export const SEASONAL_DAYS: SeasonalDay[] = [
   { slug: 'new-years-eve', label: "new year's eve — 3…2…1", prop: 'party', month: 12, day: 31 },
 ]
 
+/** The visitor's night (9pm–6am local) — the critter gets sleepy, the
+ *  console gets conspiratorial. Checked at mount. */
+export function isLateNight(now: Date = new Date()): boolean {
+  const h = now.getHours()
+  return h >= 21 || h < 6
+}
+
 export function getSeasonalDay(now: Date = new Date()): SeasonalDay | null {
   // URL preview: any query key matching a slug wins (e.g. `?bee-day`).
   try {

@@ -4,9 +4,15 @@ import {
   motion,
   useMotionValue,
   useReducedMotion,
+  type PanInfo,
 } from 'framer-motion'
 import { easeOut } from '@/lib/motion'
-import { getSeasonalDay, SEASONAL_DAYS, type SeasonalDay } from '@/lib/seasonal'
+import {
+  getSeasonalDay,
+  isLateNight,
+  SEASONAL_DAYS,
+  type SeasonalDay,
+} from '@/lib/seasonal'
 import { Critter, CRITTER_W, Sign } from '@/components/effects/Critter'
 
 /**
@@ -35,15 +41,28 @@ type Mode =
   | 'gone'
   | 'held'
   | 'falling'
+  | 'thrown'
 
 const WALK_SPEED = 26 // px/s — an amble
 const FLEE_SPEED = 320 // px/s — a panic
 const OFFSTAGE = 80 // px past the edge before it counts as gone
 const RETURN_AFTER = 7000 // ms of sulking before it sneaks back
 const IDLE_SLEEP = 20_000 // ms of no input before it dozes off
+const NIGHT_SLEEP = 8_000 // …much sooner past the visitor's midnight
 const STARE = Number.MAX_SAFE_INTEGER // hover-pause sentinel
+const THROW_AT = 500 // px/s of release speed that counts as a fling
+const GRAVITY = 2600 // px/s²
 
 const rand = (lo: number, hi: number) => lo + Math.random() * (hi - lo)
+
+/** Pseudo-day worn deep in the visitor's night when no real day applies. */
+const LATE_NIGHT: SeasonalDay = {
+  slug: 'late-night',
+  label: 'up late?',
+  prop: 'nightcap',
+  month: 0,
+  day: 0,
+}
 
 /** One-shot effect layer descriptor (startle hop / crash landing). */
 type Fx = { key: number; type: 'hop' | 'land' | null }
@@ -53,7 +72,10 @@ export function FooterWalker() {
   const laneRef = useRef<HTMLDivElement>(null)
   const x = useMotionValue(0)
   const y = useMotionValue(0) // 0 = feet on the line; <0 lifted, >0 dropped low
-  const [seasonal, setSeasonal] = useState(getSeasonalDay)
+  const rot = useMotionValue(0) // tumble while airborne
+  const [seasonal, setSeasonal] = useState<SeasonalDay | null>(
+    () => getSeasonalDay() ?? (isLateNight() ? LATE_NIGHT : null),
+  )
 
   const [mode, setMode] = useState<Mode>('walk')
   const [dir, setDirState] = useState(1)
@@ -65,6 +87,11 @@ export function FooterWalker() {
     nextPauseAt: 0,
     resumeAt: 0,
     lastInput: 0,
+    // Airborne physics (the fling).
+    vx: 0,
+    vy: 0,
+    spin: 0,
+    bounces: 0,
   })
 
   const go = (next: Mode) => {
@@ -108,6 +135,7 @@ export function FooterWalker() {
 
     const m = machine.current
     m.lastInput = performance.now()
+    const sleepAfter = isLateNight() ? NIGHT_SLEEP : IDLE_SLEEP
     let raf = 0
     let last = 0
     let returnTimer = 0
@@ -126,7 +154,7 @@ export function FooterWalker() {
       const max = trackWidth()
 
       if (m.mode === 'walk') {
-        if (t - m.lastInput > IDLE_SLEEP) {
+        if (t - m.lastInput > sleepAfter) {
           go('sleep')
         } else if (t >= m.nextPauseAt) {
           m.resumeAt = t + rand(1200, 3200)
@@ -139,8 +167,43 @@ export function FooterWalker() {
           x.set(nx)
         }
       } else if (m.mode === 'pause') {
-        if (m.resumeAt !== STARE && t - m.lastInput > IDLE_SLEEP) go('sleep')
+        if (m.resumeAt !== STARE && t - m.lastInput > sleepAfter) go('sleep')
         else if (t >= m.resumeAt) go('walk')
+      } else if (m.mode === 'thrown') {
+        // Projectile flight: gravity, tumble, a bounce or two, then it
+        // dusts off and storms away (or is simply gone, if flung offstage).
+        m.vy += GRAVITY * dt
+        const nx = x.get() + m.vx * dt
+        let ny = y.get() + m.vy * dt
+        rot.set(rot.get() + m.spin * dt)
+        if (ny >= 0 && m.vy > 0) {
+          ny = 0
+          if (Math.abs(m.vy) < 520 || m.bounces >= 2) {
+            rot.set(0)
+            playFx('land')
+            m.lastInput = t
+            if (nx < -OFFSTAGE || nx > max + OFFSTAGE) {
+              go('gone')
+              returnTimer = window.setTimeout(
+                () => wander(x.get() > 0),
+                RETURN_AFTER,
+              )
+            } else {
+              setDir(nx > max / 2 ? 1 : -1)
+              go('falling') // stands squashed for a beat…
+              returnTimer = window.setTimeout(() => {
+                if (machine.current.mode === 'falling') go('flee') // …then storms off
+              }, 620)
+            }
+          } else {
+            m.vy = -m.vy * 0.45
+            m.vx *= 0.75
+            m.spin *= -0.6
+            m.bounces += 1
+          }
+        }
+        x.set(nx)
+        y.set(ny)
       } else if (m.mode === 'flee') {
         const nx = x.get() + m.dir * FLEE_SPEED * dt
         x.set(nx)
@@ -235,12 +298,24 @@ export function FooterWalker() {
     m.nextPauseAt = now + rand(5000, 10000)
   }
 
-  // Grab & drop.
+  // Grab, drop… or fling.
   const onDragStart = () => go('held')
-  const onDragEnd = () => {
+  const onDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const m = machine.current
     const lane = laneRef.current
     const max = lane ? lane.clientWidth - CRITTER_W : 0
+
+    // Released with real speed → it's airborne. The rAF loop takes over.
+    const speed = Math.hypot(info.velocity.x, info.velocity.y)
+    if (speed > THROW_AT) {
+      m.vx = Math.max(-1400, Math.min(1400, info.velocity.x))
+      m.vy = Math.min(info.velocity.y, 300) // upward flings keep their arc
+      m.spin = (info.velocity.x >= 0 ? 1 : -1) * Math.min(640, speed * 0.35)
+      m.bounces = 0
+      go('thrown')
+      return
+    }
+
     const landX = Math.max(0, Math.min(max, x.get()))
     go('falling')
     // Plummet to the line (gravity-ish) with a settle, drifting back in-bounds.
@@ -318,6 +393,8 @@ export function FooterWalker() {
           </span>
         )}
 
+        {/* Tumble layer — spun by the physics loop while airborne. */}
+        <motion.div style={{ rotate: rot, transformOrigin: 'center' }}>
         {/* One-shot effects: startle hop or crash-landing squash + shake. */}
         <motion.div
           key={fx.key}
@@ -340,7 +417,7 @@ export function FooterWalker() {
             <Critter
               prop={seasonal?.prop ?? null}
               eyes={
-                mode === 'flee' || asleep
+                mode === 'flee' || mode === 'thrown' || asleep
                   ? 'squint'
                   : held
                     ? 'wide'
@@ -357,10 +434,11 @@ export function FooterWalker() {
                       ? dir * 3
                       : 0
               }
-              blink={mode !== 'flee' && !asleep}
-              gaze={!held}
+              blink={mode !== 'flee' && mode !== 'thrown' && !asleep}
+              gaze={!held && mode !== 'thrown'}
             />
           </motion.div>
+        </motion.div>
         </motion.div>
       </motion.button>
     </div>
