@@ -41,6 +41,8 @@ export interface Achievement {
 
 export interface BlogPost {
   id: string
+  /** URL slug — the post reads at /blogs/<slug>. */
+  slug: string
   title: string
   blurb: string
   /** Short topic label, shown small + uppercase on the right. */
@@ -49,7 +51,10 @@ export interface BlogPost {
   date: string
   /** Rough reading-time estimate in minutes. */
   readMins: number
-  /** Where the post opens. Use '#' until the post exists. */
+  /** The post body as Markdown — the native reader renders it (headings,
+   *  bold/italic, `code`, [links](url), lists, > quotes, ``` fences, ---). */
+  body: string
+  /** Where the row links. Internal posts point at /blogs/<slug>. */
   href: string
   /** Set true for posts hosted elsewhere — renders an ↗ on hover. */
   external?: boolean
@@ -71,6 +76,15 @@ export const profile = {
   timeZone: 'Asia/Kolkata',
   location: 'India',
   utcLabel: 'UTC+5:30',
+}
+
+/* ----------------------------------------------------------------- *
+ * About — the short human intro that opens the page.
+ * ----------------------------------------------------------------- */
+export const about = {
+  // Left meta column — the hats I wear (job-title roles only). Edit freely.
+  roles: ['Software Engineer', 'Web Developer'],
+  body: "I'm Saksham, a software engineer who likes building things and learning by building them. I pick up new tools and frameworks quickly, and I enjoy working through unfamiliar problems until they make sense. Most of all, I care about writing clean, dependable code — simple where it can be, careful where it matters — and seeing it through to something that actually ships.",
 }
 
 /**
@@ -342,7 +356,105 @@ export const achievements: Achievement[] = [
  *       external: true,
  *     },
  * ----------------------------------------------------------------- */
-export const blogPosts: BlogPost[] = []
+export const blogPosts: BlogPost[] = [
+  {
+    id: 'boring-technology',
+    slug: 'boring-technology',
+    title: 'In Praise of Boring Technology',
+    blurb:
+      'The unglamorous case for tools whose bugs have already been found by someone else.',
+    category: 'Engineering',
+    date: 'Jul 2026',
+    readMins: 2,
+    href: '/blogs/boring-technology',
+    body: `Every project starts with the same temptation: reach for the shiny new thing. A framework that shipped last week, a database with a manifesto, a language feature three people understand. It feels like progress. Often it's just risk wearing a nice hat.
+
+I've come around to the opposite instinct — reach for boring technology first.
+
+## What "boring" actually means
+
+Boring doesn't mean bad. It means *proven*. Postgres, a plain REST API, a job queue that's existed for a decade — these are boring the way a bridge is boring. You don't want a bridge with surprising opinions.
+
+The value is simple: someone has already hit the bug you're about to hit, written it up, and answered it on a forum at 2am. Boring technology comes with years of other people's pain already paid off.
+
+> The best code is the code you never had to debug, because someone else already did.
+
+## Where to spend your novelty budget
+
+You only get so much novelty per project. Spend it where it matters:
+
+- Spend it on the problem that's actually unique to your product.
+- Save it on the stuff every app needs — auth, storage, deploys.
+- Never spend it on three new things at once. When something breaks, you won't know which bet failed.
+
+New tools are worth trying — I spin them up on weekends constantly. But there's a difference between playing with a tool and betting a deadline on it. Play on Saturday; ship on Monday with something that already works.
+
+The unglamorous truth is that the interesting problems usually aren't in the framework. They're in the domain — the messy, specific thing your software is actually *for*. Boring tools get out of the way so you can spend your attention there.
+
+Choose boring. Be interesting with what you build on top.`,
+  },
+  {
+    id: 'read-the-error-message',
+    slug: 'read-the-error-message',
+    title: 'Read the Error Message',
+    blurb:
+      'The most underrated debugging skill is the one that sounds too obvious to say out loud.',
+    category: 'Notes',
+    date: 'Jul 2026',
+    readMins: 2,
+    href: '/blogs/read-the-error-message',
+    body: `There's a debugging skill nobody teaches because it sounds insulting: read the error message. All of it. Slowly.
+
+I've lost more hours than I'll admit skimming a stack trace, deciding what I *thought* was wrong, and fixing that instead. The error was right there the whole time, spelling out the answer in plain language while I argued with it.
+
+## The pattern
+
+It usually goes like this. Something breaks, you feel a flash of certainty — "oh, it's the database connection" — and you're off: changing config, restarting things, googling symptoms. Twenty minutes later you scroll back up and the very first line says:
+
+\`\`\`
+NullReferenceException: 'user' was null at Checkout.cs:42
+\`\`\`
+
+Not the database. Line 42. A null user. The message knew. You just didn't look.
+
+## A slower loop that's actually faster
+
+Now I make myself do a boring little checklist before touching anything:
+
+- Read the **last** line — the actual exception — and the first line of *my* code in the trace.
+- Say what it claims out loud: "it says user is null on line 42."
+- Only *then* form a theory.
+
+It feels slower. It isn't. The fast-feeling loop — guess, change, rerun — is exactly how you lose an afternoon to a typo.
+
+> Most bugs aren't mysteries. They're messages you skipped.
+
+Modern errors are trying so hard to help: stack traces, line numbers, suggested fixes, sometimes a link to the exact answer. Treating them as noise to scroll past is like ignoring a map because you're sure you know the way.
+
+So the unglamorous move — the one that separates a calm debugger from a frantic one — is to slow down for ten seconds and actually read. The computer already told you what's wrong. Believe it.`,
+  },
+  {
+    id: 'hello-welcome',
+    slug: 'hello-welcome',
+    title: 'Hello, and welcome',
+    blurb: "Opening the door — what this blog is for, and what I'll be writing about.",
+    category: 'Meta',
+    date: 'Jul 2026',
+    readMins: 1,
+    href: '/blogs/hello-welcome',
+    body: `Hi — I'm Saksham, and this is the start of my writing corner on the site.
+
+I build backend systems for a living, so most of what lands here will come from that world: things I learn, bugs that taught me something, tools I lean on, and the occasional look under the hood. Expect notes on .NET, APIs, databases, and open source — plus whatever I'm currently figuring out.
+
+I don't want to box it in, though. If a book, a side project, or a random idea feels worth sharing, it might show up here too.
+
+Writing forces me to actually understand the things I think I know, so honestly, a lot of this is for me. If it turns out useful to you as well, even better.
+
+I'm also open to suggestions. If there's something you'd like me to write about, tell me — the contact details are a click away. Consider this first post me saying hello and opening the door.
+
+Thanks for stopping by. More soon.`,
+  },
+]
 
 /* ----------------------------------------------------------------- *
  * 07 — Contact
@@ -364,5 +476,27 @@ export const resume = {
 export const socials: SocialLink[] = [
   { label: 'Email', href: 'mailto:sakshammahajan2004@gmail.com', handle: 'sakshammahajan2004@gmail.com' },
   { label: 'LinkedIn', href: 'https://linkedin.com/in/sakshammjn', handle: '/in/sakshammjn' },
-  { label: 'GitHub', href: 'https://github.com/sakshammjn', handle: '@sakshammjn' }, 
+  { label: 'GitHub', href: 'https://github.com/sakshammjn', handle: '@sakshammjn' },
 ]
+
+/**
+ * Newsletter box shown under each blog post.
+ *
+ * HOW AUTO-NOTIFY WORKS (a static site can't email people itself):
+ *   1. Make a free account on an RSS-to-email service — Buttondown recommended
+ *      (buttondown.com), or Kit / MailChimp / MailerLite.
+ *   2. Turn on its "RSS-to-email" / "RSS campaign" automation and point it at
+ *      https://sakshammjn.com/rss.xml  → it auto-emails subscribers whenever a
+ *      new post appears in the feed. You just write + publish; it does the rest.
+ *   3. Paste the provider's subscribe form URL into `endpoint` below. The form
+ *      POSTs `email` (+ `name`) to it; the service stores the subscriber.
+ *      (Buttondown's is https://buttondown.com/api/emails/embed-subscribe/<you>.)
+ *
+ * Leave `endpoint` '' and the form falls back to a pre-filled email to
+ * `contact.email`, so it still works before a provider is connected.
+ */
+export const newsletter = {
+  endpoint: '',
+  blurb: 'New posts and the occasional shipping story, straight to your inbox.',
+  note: 'A couple of times a month. No spam, unsubscribe anytime.',
+}

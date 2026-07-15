@@ -18,7 +18,7 @@ const menuLinks: Array<{
   soon?: boolean
 }> = [
   { label: 'Home', href: '/' },
-  { label: 'Blogs', href: '/blogs', soon: true },
+  { label: 'Blogs', href: '/blogs' },
 ]
 
 /**

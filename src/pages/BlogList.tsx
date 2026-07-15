@@ -7,6 +7,7 @@ import { ClickSpark } from '@/components/effects/ClickSpark'
 import { TabTease } from '@/components/effects/TabTease'
 import { Critter, Sign } from '@/components/effects/Critter'
 import { CritterParade } from '@/components/effects/CritterParade'
+import { ThemeWipeChaser } from '@/components/effects/ThemeWipeChaser'
 import { Reveal } from '@/components/ui/Reveal'
 
 /**
@@ -22,6 +23,7 @@ export function BlogList() {
       <Brand />
       <CommandPalette />
       <CritterParade />
+      <ThemeWipeChaser />
 
       <main className="mx-auto min-h-screen max-w-5xl px-6 pb-24 pt-28 sm:pt-36">
         <header className="mb-8 sm:mb-10">
