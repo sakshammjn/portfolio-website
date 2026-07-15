@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { easeOut } from '@/lib/motion'
 import { contact, resume, socials } from '@/data/content'
+import { CURRENT_VERSION } from '@/data/changelog'
 import { SEASONAL_DAYS } from '@/lib/seasonal'
 import { Critter } from '@/components/effects/Critter'
 
@@ -16,12 +17,13 @@ import { Critter } from '@/components/effects/Critter'
 
 /** Chapter jump targets — keep ids and order in sync with App.tsx. */
 const chapters = [
-  { id: 'experience', label: 'Experience', index: '01' },
-  { id: 'opensource', label: 'Open Source', index: '02' },
-  { id: 'projects', label: 'Projects', index: '03' },
-  { id: 'global', label: 'Global Exposure', index: '04' },
-  { id: 'achievements', label: 'Achievements', index: '05' },
-  { id: 'education', label: 'Education', index: '06' },
+  { id: 'about', label: 'About', index: '01' },
+  { id: 'experience', label: 'Experience', index: '02' },
+  { id: 'opensource', label: 'Open Source', index: '03' },
+  { id: 'projects', label: 'Projects', index: '04' },
+  { id: 'global', label: 'Global Exposure', index: '05' },
+  { id: 'achievements', label: 'Achievements', index: '06' },
+  { id: 'education', label: 'Education', index: '07' },
   { id: 'contact', label: 'Contact', index: '{ }' },
 ]
 
@@ -212,6 +214,15 @@ export function CommandPalette() {
         keywords: 'blog essays writing posts notes',
         run: () => {
           window.location.href = '/blogs'
+        },
+      },
+      {
+        id: 'changelog',
+        label: 'changelog',
+        hint: CURRENT_VERSION,
+        keywords: 'version history releases updates whats new',
+        run: () => {
+          window.location.href = '/changelog'
         },
       },
       ...(github
