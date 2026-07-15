@@ -1,0 +1,6 @@
+# SPA fallback — serve index.html for every path so client-side routes
+# (/blogs, /blogs/:slug, /changelog) and the in-app 404 resolve on reload and
+# on direct links. Read by Netlify and Cloudflare Pages.
+# On a different host, use its equivalent (nginx try_files, Apache .htaccess,
+# S3/CloudFront error-document → index.html).
+/*  /index.html  200

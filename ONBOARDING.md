@@ -7,7 +7,7 @@
 
 ## 1. What this is
 
-A single-page personal portfolio for **Saksham Mahajan** (software engineer @ RKIT Software, GSoC 2026 applicant with JSON Schema), plus a `/blogs` index page. Fully static — no backend, no CMS, no analytics. Deployed on **Vercel** at `https://saksham-mahajan.vercel.app/` (custom domain `sakshammjn.com` planned, not yet purchased).
+A single-page personal portfolio for **Saksham Mahajan** (software engineer @ RKIT Software, GSoC 2026 applicant with JSON Schema), plus a `/blogs` index page. Fully static — no backend, no CMS, no analytics. Deployed on **Vercel** at `https://sakshammjn.com/` (custom domain `sakshammjn.com` planned, not yet purchased).
 
 **Design language:** brutalist-editorial. Big Clash Display type, hairline rules instead of cards, one ember-orange accent, mono micro-labels, dotted-grid ink background. The site reads as numbered "chapters" (`{ 01 } EXPERIENCE` …) like a magazine, not a component gallery. An older "timeline spine" design was deliberately removed (`a7de4cd refactor: remove legacy timeline`) — do not reintroduce cards, spines, or soft pills.
 
@@ -153,7 +153,7 @@ Conventions in markup: hairlines are `border-t border-line`; numbered labels are
 - **Person JSON-LD** with `sameAs` → GitHub + LinkedIn, `alternateName: "sakshammjn"`, worksFor RKIT, alumniOf GCET. Keep in sync with `socials` in content.ts.
 - Crawlable full name: sr-only `"Saksham Mahajan — Software Engineer"` inside the hero `<h1>` ([Hero.tsx](src/components/sections/Hero.tsx)); the `{ saksham }` FlipText is `aria-hidden`.
 - `public/robots.txt` + `public/sitemap.xml` (currently vercel.app URLs).
-- **Canonical/OG/sitemap all point to `https://saksham-mahajan.vercel.app/`** — when `sakshammjn.com` is purchased, swap URLs in: index.html (canonical, og:url, og:image, twitter:image, JSON-LD `@id`/`url`), sitemap.xml, robots.txt. Then add domain in Vercel (auto-301s the subdomain).
+- **Canonical/OG/sitemap all point to `https://sakshammjn.com/`** — when `sakshammjn.com` is purchased, swap URLs in: index.html (canonical, og:url, og:image, twitter:image, JSON-LD `@id`/`url`), sitemap.xml, robots.txt. Then add domain in Vercel (auto-301s the subdomain).
 
 ---
 
