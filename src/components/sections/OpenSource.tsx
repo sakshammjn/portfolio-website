@@ -1,5 +1,6 @@
 import { gsoc, ossContributions, ossRepos } from '@/data/content'
 import { Chapter } from '@/components/ui/Chapter'
+import { ContribGraph } from '@/components/ui/ContribGraph'
 import { Reveal } from '@/components/ui/Reveal'
 
 const ArrowIcon = () => (
@@ -27,7 +28,7 @@ export function OpenSource() {
   return (
     <Chapter
       id="opensource"
-      index="02"
+      index="03"
       label="Open Source"
       lede="Shipping fixes to a tool I use — and a GSoC 2026 proposal to go deeper."
     >
@@ -130,6 +131,11 @@ export function OpenSource() {
             bugs found · filed · fixed
           </span>
         </div>
+      </Reveal>
+
+      {/* A year of commits as quiet ember texture, closing the chapter. */}
+      <Reveal delay={0.15}>
+        <ContribGraph />
       </Reveal>
     </Chapter>
   )

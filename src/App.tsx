@@ -8,6 +8,7 @@ import { CritterParade } from '@/components/effects/CritterParade'
 import { ThemeWipeChaser } from '@/components/effects/ThemeWipeChaser'
 import { PeekABoo } from '@/components/effects/PeekABoo'
 import { Hero } from '@/components/sections/Hero'
+import { About } from '@/components/sections/About'
 import { Experience } from '@/components/sections/Experience'
 import { OpenSource } from '@/components/sections/OpenSource'
 import { Projects } from '@/components/sections/Projects'
@@ -38,6 +39,9 @@ export default function App() {
 
       <main>
         <Hero />
+
+        {/* A short human intro before the numbered chapters begin */}
+        <About />
 
         {/* The journey — each chapter is a full-width editorial band */}
         <Experience />

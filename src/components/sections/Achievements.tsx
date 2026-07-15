@@ -6,7 +6,7 @@ export function Achievements() {
   return (
     <Chapter
       id="achievements"
-      index="05"
+      index="06"
       label="Achievements"
       lede="Moments that mattered."
     >

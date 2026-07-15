@@ -26,7 +26,7 @@ export function Projects() {
   return (
     <Chapter
       id="projects"
-      index="03"
+      index="04"
       label="Projects"
       lede="A few of the projects where ideas turned into working software."
     >

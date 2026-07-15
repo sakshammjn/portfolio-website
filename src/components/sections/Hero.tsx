@@ -85,8 +85,11 @@ export function Hero() {
       aria-label="Introduction"
       className={
         split
-          ? 'relative -mb-[100lvh] h-[200lvh]'
-          : 'relative flex min-h-[100svh] flex-col'
+          ? // pointer-events-none so the tall (200lvh) box, which overlaps the
+            // next section via the negative margin, doesn't intercept clicks on
+            // it; the interactive halves below re-enable pointer events.
+            'pointer-events-none relative -mb-[100lvh] h-[200lvh]'
+          : 'pointer-events-none relative flex min-h-[100svh] flex-col'
       }
     >
       {/* Pinned viewport for the split. overflow-hidden clips the departed
@@ -138,6 +141,7 @@ export function Hero() {
               direction="right"
               segments={[{ text: 'portfolio' }]}
             />
+            
           </motion.div>
           {band(marqueeBottom, -1, '✦', 'bottom-[30%]', '-rotate-[4deg]')}
         </motion.div>
