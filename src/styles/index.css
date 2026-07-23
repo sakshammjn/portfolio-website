@@ -1,6 +1,26 @@
 @import 'tailwindcss';
 
 /* ------------------------------------------------------------------ *
+ * Clash Display — self-hosted (was loaded from Fontshare's CDN, which
+ * proved flaky; the hero/marquee fell back to Inter and lost its weight).
+ * Files live in public/fonts, so they load same-origin and can't fail.
+ * ------------------------------------------------------------------ */
+@font-face {
+  font-family: 'Clash Display';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/clash-display-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Clash Display';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/clash-display-700.woff2') format('woff2');
+}
+
+/* ------------------------------------------------------------------ *
  * Design tokens — Tailwind v4 CSS-first theme.
  * These generate utilities automatically:
  *   --color-accent  -> text-accent / bg-accent / border-accent ...

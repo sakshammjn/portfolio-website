@@ -5,7 +5,6 @@ import { CommandPalette } from '@/components/layout/CommandPalette'
 import { Footer } from '@/components/layout/Footer'
 import { ClickSpark } from '@/components/effects/ClickSpark'
 import { TabTease } from '@/components/effects/TabTease'
-import { CritterParade } from '@/components/effects/CritterParade'
 import { ThemeWipeChaser } from '@/components/effects/ThemeWipeChaser'
 import { Markdown, getHeadings, toPlainText } from '@/lib/markdown'
 import { TableOfContents } from '@/components/blog/TableOfContents'
@@ -71,7 +70,6 @@ export function BlogPostPage({ post }: { post: BlogPost }) {
       <TabTease />
       <Brand />
       <CommandPalette />
-      <CritterParade />
       <ThemeWipeChaser />
       <SelectionTools containerRef={articleRef} />
 

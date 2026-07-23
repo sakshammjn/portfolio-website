@@ -13,7 +13,7 @@ import { WARDROBE, type WardrobeKey } from '@/components/effects/wardrobe'
  * One 4px-grid body (44×36) drawn from square rects, accent-token fill, eyes
  * cut out in ink so they read as holes to the page ground in both themes.
  * Everything else is controlled by props so the same creature can pace the
- * footer, watch the ⌘K list, march in the parade, or hold a sign:
+ * footer, watch the ⌘K list, or hold a sign:
  *
  *  - `eyes`     open pixels · > < squint · wide startled saucers
  *  - `gaze`     pupils drift toward the visitor's cursor (springy, ±2.5px)
@@ -71,7 +71,7 @@ export function Critter({
   const prefersReduced = useReducedMotion()
   const ref = useRef<SVGSVGElement>(null)
   // Every critter blinks on its own rhythm — identical intervals across a
-  // parade would read as animatronics.
+  // many critters at once would read as animatronics.
   const blinkDelay = useRef(2.6 + Math.random() * 1.8)
 
   // Pupil drift — springs so the eyes glide rather than snap.

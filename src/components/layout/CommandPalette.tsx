@@ -180,15 +180,6 @@ export function CommandPalette() {
         },
       },
       {
-        id: 'pet',
-        label: 'release the critters',
-        hint: '✦',
-        keywords: 'pet mascot critter parade egg fun',
-        run: () => {
-          window.dispatchEvent(new CustomEvent('critter-parade'))
-        },
-      },
-      {
         id: 'calendar',
         label: 'critter calendar',
         hint: '›',
@@ -216,15 +207,7 @@ export function CommandPalette() {
           window.location.href = '/blogs'
         },
       },
-      {
-        id: 'changelog',
-        label: 'changelog',
-        hint: CURRENT_VERSION,
-        keywords: 'version history releases updates whats new',
-        run: () => {
-          window.location.href = '/changelog'
-        },
-      },
+      
       ...(github
         ? [
             {
@@ -251,6 +234,15 @@ export function CommandPalette() {
             },
           ]
         : []),
+        {
+        id: 'changelog',
+        label: 'changelog',
+        hint: CURRENT_VERSION,
+        keywords: 'version history releases updates whats new',
+        run: () => {
+          window.location.href = '/changelog'
+        },
+      },
     ]
   }, [theme, view])
 

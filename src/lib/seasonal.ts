@@ -5,8 +5,7 @@ import type { WardrobeKey } from '@/components/effects/wardrobe'
  * tiny pixel prop (drawn in wardrobe.tsx) and, on hover, holds up a sign
  * naming the day (most of these are obscure — the sign is the reveal).
  *
- * Only the footer critter dresses up; the palette pet, parade, etc. stay
- * plain.
+ * Only the footer critter dresses up; the palette pet and others stay plain.
  *
  * Preview any day by appending its slug as a bare query param, e.g.
  * `?bee-day`, `?halloween`, `?my-birthday` — checked against every param key
@@ -80,12 +79,12 @@ export const SEASONAL_DAYS: SeasonalDay[] = [
   { slug: 'bicycle-day', label: 'world bicycle day', prop: 'bicycle', month: 6, day: 3 },
   { slug: 'environment-day', label: 'world environment day', prop: 'sprout', month: 6, day: 5 },
   { slug: 'yoga-day', label: 'international yoga day', prop: 'yoga-mat', month: 6, day: 21 },
-  { slug: 'site-birthday', label: "this site's birthday", prop: 'party', month: 6, day: 22 },
   { slug: 'turing-day', label: "alan turing's birthday", prop: 'turing', month: 6, day: 23 },
 
   // July
   { slug: 'emoji-day', label: 'world emoji day', prop: 'emoji', month: 7, day: 17 },
   { slug: 'chess-day', label: 'international chess day', prop: 'pawn', month: 7, day: 20 },
+  { slug: 'site-birthday', label: "this site's birthday", prop: 'party', month: 7, day: 24 },
   { slug: 'friendship-day', label: 'international friendship day', prop: 'friend', month: 7, day: 30 },
 
   // August

@@ -64,17 +64,14 @@
     />
     <meta name="twitter:image" content="https://sakshammjn.com/og-image.png" />
 
-    <!-- Fonts: preconnect + display=swap for fast first paint -->
+    <!-- Fonts. Inter / JetBrains Mono / Permanent Marker from Google Fonts;
+         Clash Display (the hero face) is self-hosted — see @font-face in
+         index.css and public/fonts — so it never depends on a third-party CDN. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/clash-display-700.woff2" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Permanent+Marker&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Clash Display: the heavy geometric face for the hero name / marquee -->
-    <link
-      href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap"
       rel="stylesheet"
     />
 

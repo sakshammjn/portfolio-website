@@ -5,7 +5,6 @@ import { Footer } from '@/components/layout/Footer'
 import { ClickSpark } from '@/components/effects/ClickSpark'
 import { TabTease } from '@/components/effects/TabTease'
 import { Critter } from '@/components/effects/Critter'
-import { CritterParade } from '@/components/effects/CritterParade'
 import { ThemeWipeChaser } from '@/components/effects/ThemeWipeChaser'
 
 /**
@@ -31,7 +30,6 @@ export function NotFound() {
       <TabTease />
       <Brand />
       <CommandPalette />
-      <CritterParade />
       <ThemeWipeChaser />
 
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 pb-24 pt-28 text-center">
