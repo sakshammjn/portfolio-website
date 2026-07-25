@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
 import { blogPosts } from './src/data/content'
 
-const SITE = 'https://sakshammjn.com'
+const SITE = 'https://sakshammjn.dev'
 
 const xmlEscape = (s: string) =>
   s.replace(
@@ -55,7 +55,7 @@ ${items}
 }
 
 // `base` controls the public path the app is served from.
-//   - Custom domain (sakshammjn.com):  leave as '/' (default)
+//   - Custom domain (sakshammjn.dev):  leave as '/' (default)
 //   - GitHub Pages project site:       set VITE_BASE="/<repo-name>/" at build
 export default defineConfig({
   base: process.env.VITE_BASE ?? '/',

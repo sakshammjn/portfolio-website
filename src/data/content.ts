@@ -486,7 +486,7 @@ export const socials: SocialLink[] = [
  *   1. Make a free account on an RSS-to-email service — Buttondown recommended
  *      (buttondown.com), or Kit / MailChimp / MailerLite.
  *   2. Turn on its "RSS-to-email" / "RSS campaign" automation and point it at
- *      https://sakshammjn.com/rss.xml  → it auto-emails subscribers whenever a
+ *      https://sakshammjn.dev/rss.xml  → it auto-emails subscribers whenever a
  *      new post appears in the feed. You just write + publish; it does the rest.
  *   3. Paste the provider's subscribe form URL into `endpoint` below. The form
  *      POSTs `email` (+ `name`) to it; the service stores the subscriber.
