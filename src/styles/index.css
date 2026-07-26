@@ -20,6 +20,17 @@
   src: url('/fonts/clash-display-700.woff2') format('woff2');
 }
 
+/* Permanent Marker — self-hosted for the same reason as Clash Display above.
+   Loaded from Google Fonts' CDN it fell back to a system cursive in Safari,
+   so the one doodled word rendered wrong. Same-origin, it can't fail. */
+@font-face {
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/permanent-marker.woff2') format('woff2');
+}
+
 /* ------------------------------------------------------------------ *
  * Design tokens — Tailwind v4 CSS-first theme.
  * These generate utilities automatically:

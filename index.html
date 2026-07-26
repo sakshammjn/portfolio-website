@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0A0A0B" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Raster fallbacks: Google Search's favicon crawler and Safari want a
+         PNG, not the SVG. 96px is Google's preferred favicon size. -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <!-- Resolve theme before first paint to avoid a flash of the wrong palette.
          Dark is the intended default — the site is designed dark-first — so we
@@ -24,10 +29,10 @@
     </script>
 
     <!-- Primary SEO -->
-    <title>Saksham Mahajan — Software Engineer</title>
+    <title>Saksham Mahajan | Software Engineer</title>
     <meta
       name="description"
-      content="Saksham Mahajan is a software engineer building .NET backend services at RKIT Software, contributing to JSON Schema open source, and shipping projects from ML to Chrome extensions."
+      content="Software Engineer, open-source contributor, and lifelong learner passionate about building meaningful software, experimenting with AI, and creating products people love to use."
     />
     <meta
       name="keywords"
@@ -65,14 +70,17 @@
     />
     <meta name="twitter:image" content="https://sakshammjn.dev/og-image.png" />
 
-    <!-- Fonts. Inter / JetBrains Mono / Permanent Marker from Google Fonts;
-         Clash Display (the hero face) is self-hosted — see @font-face in
-         index.css and public/fonts — so it never depends on a third-party CDN. -->
+    <!-- Fonts. Inter / JetBrains Mono from Google Fonts; Clash Display (hero)
+         and Permanent Marker (the doodled word) are self-hosted — see
+         @font-face in index.css and public/fonts — so they never depend on a
+         third-party CDN (Permanent Marker fell back to a system cursive in
+         Safari when loaded from Google Fonts). -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/clash-display-700.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/permanent-marker.woff2" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Permanent+Marker&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
