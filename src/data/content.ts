@@ -152,7 +152,7 @@ export const global: TimelineCard[] = [
 export const experience: TimelineCard[] = [
   {
     id: 'rkit',
-    title: 'Software Engineer',
+    title: 'Software Developer',
     subtitle: 'RKIT Software · India',
     period: 'Jan 2026 – Present',
     // Live counter starts at midnight IST, 1 Jan 2026.
@@ -295,7 +295,7 @@ export const projects: Project[] = [
     name: 'Learnova',
     tagline: 'A modern learning platform',
     description:
-      'An ed-tech platform built to make structured learning feel effortless — course delivery, progress tracking and a clean, focused interface for learners. This is the build that carried our team to the top 10 of 1200+ at the Odoo Hackathon.',
+      'An ed-tech platform built to make structured learning feel effortless — course delivery, progress tracking and a clean, focused interface for learners. This is the build that carried our team to the top 10 of 2,100 at the Odoo Hackathon.',
     stack: ['React', 'Node.js', 'MongoDB', 'REST'],
     repo: 'https://github.com/sakshammjn/ai-generated-quiz',
   },
@@ -318,7 +318,7 @@ export const achievements: Achievement[] = [
     id: 'hackathons',
     title: 'Hackathons — Top 5 & Top 10',
     detail:
-      'Top 5 of 20+ international teams at HackAtom, Rosatom’s hackathon in Russia, and top 10 of 1200+ teams at the Odoo Hackathon, SVNIT Surat.',
+      'Top 5 of 20+ international teams at HackAtom, Rosatom’s hackathon in Russia, and top 10 of 2,100 teams at the Odoo Hackathon, SVNIT Surat.',
   },
   {
     id: 'codefest',
@@ -489,14 +489,16 @@ export const socials: SocialLink[] = [
  *      https://sakshammjn.dev/rss.xml  → it auto-emails subscribers whenever a
  *      new post appears in the feed. You just write + publish; it does the rest.
  *   3. Paste the provider's subscribe form URL into `endpoint` below. The form
- *      POSTs `email` (+ `name`) to it; the service stores the subscriber.
- *      (Buttondown's is https://buttondown.com/api/emails/embed-subscribe/<you>.)
+ *      POSTs `email` (+ `metadata__name`) to it as a real form submit in a new
+ *      tab (Buttondown forbids fetch() — it may need to show a CAPTCHA), and
+ *      Buttondown emails a double opt-in confirmation link.
  *
- * Leave `endpoint` '' and the form falls back to a pre-filled email to
- * `contact.email`, so it still works before a provider is connected.
+ * Connected: Buttondown newsletter https://buttondown.com/sakshammjn.
+ * Set `endpoint` to '' and the form falls back to a pre-filled email to
+ * `contact.email`.
  */
 export const newsletter = {
-  endpoint: '',
+  endpoint: 'https://buttondown.com/api/emails/embed-subscribe/sakshammjn',
   blurb: 'New posts and the occasional shipping story, straight to your inbox.',
   note: 'A couple of times a month. No spam, unsubscribe anytime.',
 }
