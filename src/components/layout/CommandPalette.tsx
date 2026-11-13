@@ -350,7 +350,7 @@ export function CommandPalette() {
                 role="dialog"
                 aria-modal="true"
                 aria-label="Command palette"
-                className="pointer-events-auto w-full max-w-lg overflow-hidden border border-white/10 bg-ink/70 shadow-2xl shadow-black/40 backdrop-blur-2xl backdrop-saturate-150"
+                className="pointer-events-auto w-full max-w-lg overflow-hidden border border-fg/10 bg-ink/70 shadow-2xl shadow-black/40 backdrop-blur-2xl backdrop-saturate-150"
                 initial={
                   prefersReduced ? { opacity: 0 } : { opacity: 0, y: 12 }
                 }
@@ -359,7 +359,7 @@ export function CommandPalette() {
                 transition={{ duration: 0.25, ease: easeOut }}
               >
                 {/* Prompt row */}
-                <div className="flex items-center gap-3 border-b border-white/10 px-4">
+                <div className="flex items-center gap-3 border-b border-fg/10 px-4">
                   <span aria-hidden className="font-mono text-sm text-accent">
                     ❯
                   </span>
@@ -437,7 +437,7 @@ export function CommandPalette() {
                     gets a baffled squint-and-tilt. */}
                 <div
                   aria-hidden
-                  className="flex items-center justify-between border-t border-white/10 px-4 py-2"
+                  className="flex items-center justify-between border-t border-fg/10 px-4 py-2"
                 >
                   <div className="flex gap-5 font-mono text-[10px] uppercase tracking-wider text-fg-faint">
                     <span>↑↓ move</span>

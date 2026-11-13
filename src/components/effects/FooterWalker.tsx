@@ -162,8 +162,14 @@ export function FooterWalker() {
           go('pause')
         } else {
           let nx = x.get() + m.dir * WALK_SPEED * dt
-          if (nx <= 0) (nx = 0), setDir(1)
-          if (nx >= max) (nx = max), setDir(-1)
+          if (nx <= 0) {
+            nx = 0
+            setDir(1)
+          }
+          if (nx >= max) {
+            nx = max
+            setDir(-1)
+          }
           x.set(nx)
         }
       } else if (m.mode === 'pause') {

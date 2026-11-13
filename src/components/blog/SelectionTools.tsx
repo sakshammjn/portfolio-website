@@ -115,9 +115,9 @@ export function SelectionTools({
             top: sel.y - 10,
           }}
         >
-          <div className="w-max max-w-xs border border-white/10 bg-ink/90 shadow-2xl shadow-black/40 backdrop-blur-xl">
+          <div className="w-max max-w-xs border border-fg/10 bg-ink/90 shadow-2xl shadow-black/40 backdrop-blur-xl">
             {!def ? (
-              <div className="flex items-stretch divide-x divide-white/10 font-mono text-[11px] uppercase tracking-[0.15em]">
+              <div className="flex items-stretch divide-x divide-fg/10 font-mono text-[11px] uppercase tracking-[0.15em]">
                 {singleWord && (
                   <button
                     type="button"
@@ -154,7 +154,7 @@ export function SelectionTools({
             )}
           </div>
           {/* little pointer */}
-          <div className="mx-auto h-2 w-2 -translate-y-1 rotate-45 border-b border-r border-white/10 bg-ink/90" />
+          <div className="mx-auto h-2 w-2 -translate-y-1 rotate-45 border-b border-r border-fg/10 bg-ink/90" />
         </motion.div>
       )}
     </AnimatePresence>

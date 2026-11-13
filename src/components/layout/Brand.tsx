@@ -126,15 +126,16 @@ export function Brand() {
         aria-expanded={open}
         className="fixed left-5 top-3 z-[60] flex h-10 w-14 items-center px-1"
       >
-        {/* ✕ — solid white, rotates in above the glass when the panel opens. */}
+        {/* ✕ — solid text colour (fg, so it holds on the light-theme glass
+            too), rotates in above the glass when the panel opens. */}
         <span
           aria-hidden
           className={`relative block h-4 w-4 transition-all duration-300 ease-out ${
             open ? 'rotate-0 opacity-100' : '-rotate-90 opacity-0'
           }`}
         >
-          <span className="absolute left-0 top-1/2 h-[2px] w-4 -translate-y-1/2 rotate-45 bg-white" />
-          <span className="absolute left-0 top-1/2 h-[2px] w-4 -translate-y-1/2 -rotate-45 bg-white" />
+          <span className="absolute left-0 top-1/2 h-[2px] w-4 -translate-y-1/2 rotate-45 bg-fg" />
+          <span className="absolute left-0 top-1/2 h-[2px] w-4 -translate-y-1/2 -rotate-45 bg-fg" />
         </span>
       </button>
 
@@ -154,7 +155,7 @@ export function Brand() {
               role="dialog"
               aria-modal="true"
               aria-label="Menu"
-              className="fixed left-0 top-0 z-50 flex h-full w-80 max-w-[82vw] flex-col overflow-hidden border-r border-white/10 bg-ink/50 px-7 pb-9 pt-24 shadow-2xl shadow-black/40 backdrop-blur-2xl backdrop-saturate-150"
+              className="fixed left-0 top-0 z-50 flex h-full w-80 max-w-[82vw] flex-col overflow-hidden border-r border-fg/10 bg-ink/50 px-7 pb-9 pt-24 shadow-2xl shadow-black/40 backdrop-blur-2xl backdrop-saturate-150"
               initial={prefersReduced ? { opacity: 0 } : { x: '-100%' }}
               animate={prefersReduced ? { opacity: 1 } : { x: 0 }}
               exit={prefersReduced ? { opacity: 0 } : { x: '-100%' }}
@@ -201,7 +202,7 @@ export function Brand() {
                       <motion.div
                         key={link.label}
                         variants={itemVariants}
-                        className="flex items-center gap-4 border-b border-white/10 py-5"
+                        className="flex items-center gap-4 border-b border-fg/10 py-5"
                       >
                         <span className="font-mono text-xs text-fg-faint">
                           0{i + 1}
@@ -224,7 +225,7 @@ export function Brand() {
                       rel={link.external ? 'noreferrer noopener' : undefined}
                       onClick={() => setOpen(false)}
                       variants={itemVariants}
-                      className="group flex items-center gap-4 border-b border-white/10 py-5"
+                      className="group flex items-center gap-4 border-b border-fg/10 py-5"
                     >
                       <span className="font-mono text-xs text-fg-faint transition-colors group-hover:text-accent">
                         0{i + 1}
@@ -247,7 +248,7 @@ export function Brand() {
                   Meaningless on touch screens, so it hides below sm. */}
               <p className="relative mt-6 hidden font-mono text-[11px] text-fg-faint sm:block">
                 prefer the keyboard? try{' '}
-                <span className="border border-white/15 px-1.5 py-0.5 text-fg-muted">
+                <span className="border border-fg/15 px-1.5 py-0.5 text-fg-muted">
                   ⌘ K
                 </span>
               </p>

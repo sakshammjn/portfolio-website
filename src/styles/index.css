@@ -46,7 +46,9 @@
   /* Text */
   --color-fg: #ededf0;
   --color-fg-muted: #9a9aa3;
-  --color-fg-faint: #6b6b73;
+  /* Faint is the quietest text, but still ≥ 4.5:1 on ink (WCAG AA) —
+     it carries real labels (dates, periods, captions), not just ornament. */
+  --color-fg-faint: #797981;
 
   /* Lines / borders */
   --color-line: #ffffff14;
@@ -80,7 +82,7 @@ html.dark {
   --color-surface: #16161b;
   --color-fg: #ededf0;
   --color-fg-muted: #9a9aa3;
-  --color-fg-faint: #6b6b73;
+  --color-fg-faint: #797981; /* 4.58:1 on ink */
   --color-line: #ffffff14;
 
   /* Dotted-grid backdrop tuning */
@@ -96,7 +98,7 @@ html.light {
   --color-surface: #ffffff;
   --color-fg: #1a1916;
   --color-fg-muted: #57544c;
-  --color-fg-faint: #8c897e;
+  --color-fg-faint: #757267; /* 4.57:1 on paper */
   --color-line: #1a191614;
 
   --dot: #1a191612;

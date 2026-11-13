@@ -71,10 +71,8 @@ export function BlogList() {
 
             <ul>
               {blogPosts.map((post, i) => (
-                <Reveal key={post.id} delay={i * 0.05}>
-                  <li>
-                    <PostRow post={post} />
-                  </li>
+                <Reveal as="li" key={post.id} delay={i * 0.05}>
+                  <PostRow post={post} />
                 </Reveal>
               ))}
             </ul>
