@@ -2,7 +2,8 @@
  * A quiet contents list for longer posts — appears only when a post has two
  * or more sections. Numbered mono links that jump to each heading. Kept
  * inline at the top of the article so it works identically on every screen
- * size (no fixed scroll chrome, per the site's motion rule).
+ * size. Wide screens also get SectionRail, a fixed tick rail on the right
+ * edge (the owner's request), which takes over once this list scrolls away.
  */
 export function TableOfContents({
   headings,

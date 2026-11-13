@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react'
 import { CodeBlock } from '@/components/blog/CodeBlock'
+import { Embed } from '@/components/blog/Embed'
 
 /**
  * A tiny, dependency-free Markdown renderer for the blog reader — enough for
@@ -8,7 +9,14 @@ import { CodeBlock } from '@/components/blog/CodeBlock'
  * fenced code, and --- rules. It builds real React nodes (never
  * dangerouslySetInnerHTML), so styling stays in the site's voice and there's
  * no injection surface.
+ *
+ * One extension: a line of its own like `::morse SAKSHAM` is an embed — it
+ * renders an interactive figure from blog/Embed.tsx (args after the name,
+ * `|`-separated). Unknown names render nothing.
  */
+
+/** `::name args` on its own line. */
+const EMBED_LINE = /^::([a-z]+)(?:\s+(.*))?$/
 
 export function slugify(text: string): string {
   return text
@@ -21,6 +29,13 @@ export function slugify(text: string): string {
 /** Flatten markdown to speakable prose for read-aloud. */
 export function toPlainText(md: string): string {
   return md
+    // Embeds are visual. A phrase is spoken (the line, then its meaning);
+    // the rest are skipped, as the prose around them already says it.
+    .replace(/^::phrase\s+(.*)$/gm, (_, args: string) => {
+      const [, line = '', meaning = ''] = args.split('|').map((s) => s.trim())
+      return `${line}\n\n${meaning}`
+    })
+    .replace(/^::.*$/gm, '')
     .replace(/```[\s\S]*?```/g, ' ')
     .replace(/`([^`]+)`/g, '$1')
     .replace(/\*\*([^*]+)\*\*/g, '$1')
@@ -103,7 +118,14 @@ function parseInline(text: string): ReactNode[] {
   return out
 }
 
-function Heading({ text }: { text: string }) {
+/**
+ * A section opener in the home page's chapter voice: a hairline rule, the
+ * `{ 01 }` brace label (numbered like the Contents list and SectionRail),
+ * then the heading itself, larger than body copy so a new section reads as
+ * one at a glance. The label is decorative (aria-hidden), so the heading's
+ * accessible name stays just its text.
+ */
+function Heading({ text, index }: { text: string; index: number }) {
   const id = slugify(text)
   const copyLink = () => {
     const url = `${window.location.origin}${window.location.pathname}#${id}`
@@ -113,8 +135,16 @@ function Heading({ text }: { text: string }) {
   return (
     <h2
       id={id}
-      className="group mb-4 mt-12 scroll-mt-24 font-hero text-2xl font-semibold tracking-tight text-fg"
+      className="group mb-5 mt-16 scroll-mt-24 border-t border-line pt-10 font-hero text-[1.75rem] font-bold leading-tight tracking-tight text-fg sm:text-[2.1rem]"
     >
+      <span
+        aria-hidden
+        className="mb-3 block font-mono text-xs font-normal tracking-[0.2em] text-fg-faint"
+      >
+        <span className="text-accent">{'{'}</span>{' '}
+        {String(index + 1).padStart(2, '0')}{' '}
+        <span className="text-accent">{'}'}</span>
+      </span>
       {parseInline(text)}
       <button
         type="button"
@@ -133,6 +163,7 @@ export function Markdown({ source }: { source: string }): ReactNode {
   const blocks: ReactNode[] = []
   let i = 0
   let key = 0
+  let section = 0 // h2 count, for the { 01 } labels
 
   while (i < lines.length) {
     const line = lines[i]
@@ -170,7 +201,21 @@ export function Markdown({ source }: { source: string }): ReactNode {
       continue
     }
     if (/^##\s+/.test(line)) {
-      blocks.push(<Heading key={key++} text={line.replace(/^##\s+/, '').trim()} />)
+      blocks.push(
+        <Heading
+          key={key++}
+          text={line.replace(/^##\s+/, '').trim()}
+          index={section++}
+        />,
+      )
+      i++
+      continue
+    }
+
+    // Embed (::name args).
+    const embed = EMBED_LINE.exec(line.trim())
+    if (embed) {
+      blocks.push(<Embed key={key++} name={embed[1]} args={embed[2] ?? ''} />)
       i++
       continue
     }
@@ -240,7 +285,8 @@ export function Markdown({ source }: { source: string }): ReactNode {
       !/^>\s?/.test(lines[i]) &&
       !/^[-*]\s+/.test(lines[i]) &&
       !/^\d+\.\s+/.test(lines[i]) &&
-      !/^---+$/.test(lines[i].trim())
+      !/^---+$/.test(lines[i].trim()) &&
+      !EMBED_LINE.test(lines[i].trim())
     ) {
       buf.push(lines[i])
       i++

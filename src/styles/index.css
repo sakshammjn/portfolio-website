@@ -301,6 +301,32 @@ html.light {
 }
 
 /* ------------------------------------------------------------------ *
+ * Blog StreakDots — today's dot sends out a slow ember ping, a ring
+ * that grows and fades from the dot's own centre. Transform/opacity only.
+ * ------------------------------------------------------------------ */
+.streak-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: streak-ping 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes streak-ping {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .streak-ping {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * Theme switch — diagonal wipe reveal.
  * The View Transitions API (driven from CommandPalette's applyTheme)
  * captures the outgoing palette and the incoming one as two stacked

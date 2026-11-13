@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { easeOut } from '@/lib/motion'
+import { greetings } from '@/data/content'
 
 /**
  * First-paint splash that echoes the landing page: the monogram framed in
@@ -10,8 +11,9 @@ import { easeOut } from '@/lib/motion'
  * Shows once per browser session and is skipped under reduced-motion.
  */
 
-/** Greetings in the languages Saksham actually speaks — cycled fast, once. */
-const GREETINGS = ['Hello', 'नमस्ते', 'Bonjour', 'Привет']
+/** Greetings in the languages Saksham actually speaks — cycled fast, once.
+ *  Shared with the blog's HelloCycle via content.ts. */
+const GREETINGS = greetings.map((g) => g.word)
 
 export function LoadingSplash() {
   const prefersReduced = useReducedMotion()

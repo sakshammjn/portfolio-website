@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { blogPosts, type BlogPost } from '@/data/content'
 import { Brand } from '@/components/layout/Brand'
 import { CommandPalette } from '@/components/layout/CommandPalette'
@@ -8,6 +8,7 @@ import { TabTease } from '@/components/effects/TabTease'
 import { ThemeWipeChaser } from '@/components/effects/ThemeWipeChaser'
 import { Markdown, getHeadings, toPlainText } from '@/lib/markdown'
 import { TableOfContents } from '@/components/blog/TableOfContents'
+import { SectionRail } from '@/components/blog/SectionRail'
 import { ReadAloud } from '@/components/blog/ReadAloud'
 import { SelectionTools } from '@/components/blog/SelectionTools'
 import { Subscribe } from '@/components/blog/Subscribe'
@@ -57,7 +58,8 @@ export function BlogPostPage({ post }: { post: BlogPost }) {
     }
   }, [post.title])
 
-  const headings = getHeadings(post.body)
+  // Memoised: SectionRail re-subscribes its scroll listener when this changes.
+  const headings = useMemo(() => getHeadings(post.body), [post.body])
 
   // Prev/next by publication order (newest first in the array).
   const idx = blogPosts.findIndex((p) => p.slug === post.slug)
@@ -101,6 +103,7 @@ export function BlogPostPage({ post }: { post: BlogPost }) {
         </header>
 
         <TableOfContents headings={headings} />
+        <SectionRail headings={headings} />
 
         {/* Body — rendered plainly (not scroll-revealed): reading text should
             be present immediately, and select-to-define needs stable text. */}

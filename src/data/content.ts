@@ -78,6 +78,18 @@ export const profile = {
   utcLabel: 'UTC+5:30',
 }
 
+/**
+ * Hellos in the languages Saksham speaks. The loading splash cycles these,
+ * and the "Hello, नमस्ते, Bonjour, Привет" post replays them. `lang` is a
+ * BCP 47 code so screen readers pronounce each word in its own language.
+ */
+export const greetings = [
+  { word: 'Hello', lang: 'en', language: 'English' },
+  { word: 'नमस्ते', lang: 'hi', language: 'Hindi' },
+  { word: 'Bonjour', lang: 'fr', language: 'French' },
+  { word: 'Привет', lang: 'ru', language: 'Russian' },
+]
+
 /* ----------------------------------------------------------------- *
  * About — the short human intro that opens the page.
  * ----------------------------------------------------------------- */
@@ -357,6 +369,114 @@ export const achievements: Achievement[] = [
  *     },
  * ----------------------------------------------------------------- */
 export const blogPosts: BlogPost[] = [
+  {
+    id: 'hello-namaste-bonjour-privet',
+    slug: 'hello-namaste-bonjour-privet',
+    title: 'Hello, नमस्ते, Bonjour, Привет',
+    blurb: "Why I keep learning languages I'll never be perfect at.",
+    category: 'Languages',
+    date: 'Nov 2026',
+    readMins: 6,
+    href: '/blogs/hello-namaste-bonjour-privet',
+    // ✏️ Lines starting with "::" are interactive figures (see blog/Embed.tsx).
+    body: `If you open my website for the first time, the first thing you see is a little loading screen. It says hello four times: Hello, नमस्ते, Bonjour, Привет.
+
+::hellos
+
+It isn't there just to look nice. Each of those languages has taught me something, and most of what they taught me had nothing to do with grammar.
+
+This post is about that. About a green owl, a hostel in Russia, a bracelet from my sister, and why one tiny line in someone else's language can mean so much.
+
+## 1,725 days with a scary green owl
+
+As I write this, my Duolingo streak is at 1,725 days. That's over four and a half years of opening the app every single day, all for French and Russian. Well, almost every day.
+
+::streak 1725 | 500
+
+French was my third language at school. Like most school subjects, it faded away after the exams. A few years later, my sister and brother-in-law moved to France, and suddenly French wasn't just a subject anymore. It was the language of a place where my family lived. So I picked it back up.
+
+The streak has had one near-death experience. At around 500 days, I was waiting for the special animation the owl plays at that milestone. Then I forgot to do my lesson before midnight. The streak broke, and I missed the animation I'd been waiting for. To bring it back to life, I had to spend 10,000 lingots, the app's in-game coins.
+
+So yes, the owl is scary. Especially at midnight.
+
+Now the honest part. Has Duolingo made me fluent in French? No. I'm still not confident when I have to speak. But I can read French decently, I understand the grammar, and I can follow most of what's written. Later, I also started reading the transcripts of Duolingo's French podcast: real stories in easy French, and a nice change from lesson sentences.
+
+What Duolingo really gave me isn't a language. It's a habit: a few minutes, every single day, of learning something new. After 1,725 days, that habit is worth more to me than any single lesson.
+
+> Duolingo didn't make me fluent. It taught me to show up.
+
+Somewhere along the way, the habit spread. My roommate, two or three friends and a few other people around me started using the app too, because of me.
+
+One friend started learning Mandarin. He stopped after about 100 days, but that's still 100 days of Mandarin. A colleague from my office is learning French too, for his own reasons, and his streak is over 400 days. And my roommate is learning English and other languages. His streak is over 800 days.
+
+So it's not just about the streak. It's about the community you build around yourself, sometimes without even trying.
+
+## Russian, because I had to
+
+Before I went to Russia for my exchange programme, I spent about two months learning Russian.
+
+Learning a language because it's interesting is one thing. Learning it because you'll soon need it to buy food, find your room and talk to people is something else. You stop caring about being perfect. You just want to be understood.
+
+And once I got there, my best teachers weren't apps. They were my classmates and hostel mates, who taught me simple, everyday phrases.
+
+## "Salom, mening ismim Saksham"
+
+Some of the people I met in Russia were from Uzbekistan, and they taught me one line in Uzbek:
+
+::phrase uz | Salom, mening ismim Saksham. | Hello, my name is Saksham. | hello my name Saksham
+
+That's it. Four words.
+
+But every time I said it to someone from Uzbekistan, someone who had no reason to expect it, the same thing happened. Their face lit up. They laughed. They got genuinely happy.
+
+I wasn't fluent. I probably didn't even say it perfectly. It didn't matter.
+
+When you speak to someone in their own language, even badly, you're not just saying hello. You're saying: *I noticed you. I made an effort for you.* People feel that. Mistakes don't take it away. If anything, they make it warmer, because they show you're really trying.
+
+Hindi is my home language. The rest I picked up along the way, one line at a time. And one line is enough to make someone smile.
+
+## Hands, not words
+
+A while ago, I learned the American Sign Language alphabet from a YouTube playlist. I can fingerspell A to Z, and that's where my skills end. I can't hold a conversation, and I haven't yet signed with a deaf person.
+
+But I've seen deaf people signing to each other, fast and natural, and it made me think: how often does a stranger talk to them in *their* language? Probably not often.
+
+So even if all I can do is spell a name or a simple word, I want to be ready for that moment. If that Uzbek line taught me anything, it's that a small effort in someone's own language makes them feel included. For someone who is often left out of conversations, that feeling might mean even more.
+
+One thing I learned along the way: sign language isn't one single language. Just like spoken languages, it changes from country to country. America has ASL, Britain has BSL, and India has Indian Sign Language.
+
+## Dots and dashes
+
+Morse code isn't really a language. It's a way of writing letters with short and long signals, a dot for short and a dash for long. But it's on this list because it's one of my favourite things I've learned.
+
+I know all the letters. I can tap it out, and I can understand it when someone else does. Here's my name, S-A-K-S-H-A-M:
+
+::morse SAKSHAM
+
+The best part of my Morse story isn't mine, though. My sister once gave me a bracelet with one word on it, written in Morse code:
+
+::bracelet CONSTANT
+
+It spells *constant*. Most people just see a bracelet. I see a word, and a really thoughtful gift.
+
+## What all of this taught me
+
+I'm not fluent in most of these languages. In some of them, I only know one sentence. And that's kind of the point.
+
+You don't need to be fluent to make someone feel welcome. You need one line, a little courage, and the willingness to get it a bit wrong.
+
+- **Small and daily beats big and rare.** A few minutes a day turned into 1,725 days.
+- **Mistakes are fine.** People remember that you tried, not what you got wrong.
+- **Language includes people.** A word in someone's own language, spoken or signed, tells them they belong in the conversation.
+
+## A small challenge
+
+Next time you meet someone who speaks a different language (a classmate, a coworker, the person who runs the shop near your house), learn how to say hello in their language. Just that one word.
+
+Then say it, and watch their face.
+
+I promise it's worth more than 10,000 lingots.`,
+  },
   {
     id: 'boring-technology',
     slug: 'boring-technology',
