@@ -17,6 +17,15 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: 'v1.1',
+    name: 'check your inbox',
+    date: '13 nov 2026',
+    notes: [
+      'subscribe by email — new posts land in your inbox',
+      'small fixes and polish across the site',
+    ],
+  },
+  {
     version: 'v1.0',
     name: 'live!',
     date: '24 jul 2026',
@@ -30,8 +39,7 @@ export const releases: Release[] = [
     date: '13 jul 2026',
     notes: [
       'github contribution graph added to the open source chapter',
-      'you can listen to a post read aloud, look up any word, or copy a link to a single line',
-      'subscribe by email, or follow along with the rss feed',
+      'you can listen to a post read aloud, look up any word, or copy a link to a single line'
     ],
   },
   {

@@ -20,6 +20,8 @@ dist-ssr
 
 # Local agent / editor tooling
 .claude
+# Private project notes for AI-assisted development — kept local, never pushed
+PROJECT_CONTEXT.md
 
 # Editor / OS
 .vscode/*
